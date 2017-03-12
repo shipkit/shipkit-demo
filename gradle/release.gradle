@@ -37,15 +37,6 @@ task gitTag(type: Exec) {
     commandLine "git", "tag", "-a", "v${project.version}", "-m", commitMessage("Created new tag v${project.version}")
 }
 
-/*
-task configureDryRun {
-    doLast {
-        println "Configuring root project property 'ext.releaseDryRun=true'"
-        rootProject.ext.releaseDryRun = true
-    }
-}
-*/
-
 task gitPush(type: Exec) {
     description = "Pushes changes to '${System.env.TRAVIS_BRANCH}' branch."
 
@@ -90,6 +81,11 @@ task gitCommitCleanUp(type: Exec) {
 task gitTagCleanUp(type: Exec) {
     mustRunAfter performRelease
     commandLine = ["git", "tag", "-d", "v$project.version"]
+}
+
+task releaseCleanUp {
+    finalizedBy gitCommitCleanUp
+    finalizedBy gitTagCleanUp
 }
 
 task finalizeRelease {
