@@ -63,9 +63,9 @@ task gitPush(type: Exec) {
                                System.env.TRAVIS_BRANCH, "v$project.version", mustBeQuiet]
         if (rootProject.ext.has('releaseDryRun')) {
             println "Configuring 'git push' to run with '--dry-run'"
-            commandLine << '--dry-run'
+            commandLine += ['--dry-run']
+            assert commandLine.contains('--dry-run') //paranoia, I love Groovy
         }
-        println "Executing: $commandLine"
     }
 }
 
