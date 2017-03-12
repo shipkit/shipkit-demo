@@ -53,7 +53,7 @@ task gitPush(type: Exec) {
                                "https://szczepiq:${System.env.GH_TOKEN}@github.com/mockito/mockito-release-tools-example.git",
                                System.env.TRAVIS_BRANCH, "v$project.version", mustBeQuiet]
         if (rootProject.ext.has('releaseDryRun')) {
-            println "Configuring 'git push' to run with '--dry-run'"
+            println "Running 'git push' with '--dry-run'"
             commandLine += ['--dry-run']
             assert commandLine.contains('--dry-run') //paranoia, I love Groovy
         }
@@ -84,6 +84,7 @@ task gitTagCleanUp(type: Exec) {
 }
 
 task releaseCleanUp {
+    //using finalizedBy so that all clean up tasks run, even if one of them fails
     finalizedBy gitCommitCleanUp
     finalizedBy gitTagCleanUp
 }
