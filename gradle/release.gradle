@@ -64,6 +64,7 @@ task gitPush(type: Exec) {
         if (rootProject.ext.has('releaseDryRun')) {
             commandLine << '--dry-run'
         }
+        println "Executing: $commandLine"
     }
 }
 
