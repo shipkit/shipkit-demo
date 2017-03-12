@@ -62,6 +62,7 @@ task gitPush(type: Exec) {
                                "https://szczepiq:${System.env.GH_TOKEN}@github.com/mockito/mockito-release-tools-example.git",
                                System.env.TRAVIS_BRANCH, "v$project.version", mustBeQuiet]
         if (rootProject.ext.has('releaseDryRun')) {
+            println "Configuring 'git push' to run with '--dry-run'"
             commandLine << '--dry-run'
         }
         println "Executing: $commandLine"
