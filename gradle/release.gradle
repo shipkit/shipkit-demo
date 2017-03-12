@@ -59,7 +59,7 @@ task gitPush(type: Exec) {
         //!!!Below command _MUST_ be quiet otherwise it exposes GitHub write token!!!
         def mustBeQuiet = "-q"
         commandLine = ["git", "push",
-                               "https://szczepiq:${System.env.GH_TOKEN}@github.com/mockito/mockito-release-tools.git",
+                               "https://szczepiq:${System.env.GH_TOKEN}@github.com/mockito/mockito-release-tools-example.git",
                                System.env.TRAVIS_BRANCH, "v$project.version", mustBeQuiet]
         if (rootProject.ext.has('releaseDryRun')) {
             commandLine << '--dry-run'
@@ -135,8 +135,8 @@ allprojects {
                 name = 'mockito-release-tools-example'
                 desc = project.description
                 websiteUrl = 'http://mockito.org'
-                issueTrackerUrl = 'https://github.com/mockito/mockito-release-tools/issues'
-                vcsUrl = 'https://github.com/mockito/mockito-release-tools.git'
+                issueTrackerUrl = 'https://github.com/mockito/mockito-release-tools-example/issues'
+                vcsUrl = 'https://github.com/mockito/mockito-release-tools-example.git'
                 licenses = ['MIT']
                 labels = ['continuous delivery', 'release automation', 'mockito']
                 publicDownloadNumbers = true
