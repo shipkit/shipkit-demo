@@ -1,3 +1,10 @@
+### 0.5.1 (2017-03-12)
+
+* Authors: 1
+* Commits: 4
+  * 4: Szczepan Faber
+* No notable improvements. See the commits for detailed changes.
+
 ### 0.3.0 (2017-03-12)
 
 * Authors: 1
