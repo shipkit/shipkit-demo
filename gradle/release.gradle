@@ -80,12 +80,14 @@ task performRelease {
     dependsOn bintrayUploadAll
 }
 
-task releaseCleanUp {
+task gitCommitCleanUp(type: Exec) {
     mustRunAfter performRelease
-    doLast {
-        exec { commandLine = ["git", "reset", "--hard", "HEAD~"] }
-        exec { commandLine = ["git", "tag", "-d", "v$project.version"] }
-    }
+    commandLine = ["git", "reset", "--hard", "HEAD~"]
+}
+
+task gitTagCleanUp(type: Exec) {
+    mustRunAfter performRelease
+    commandLine = ["git", "tag", "-d", "v$project.version"]
 }
 
 task finalizeRelease {
