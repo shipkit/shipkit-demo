@@ -45,6 +45,8 @@
   * 4: Szczepan Faber
 * No notable improvements. See the commits for detailed changes.
 
+=======
+>>>>>>> Bumped version and updated release notes [ci skip]
 ### 0.3.0 (2017-03-12)
 
 * Authors: 1
