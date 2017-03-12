@@ -8,6 +8,94 @@ notes {
     gitHubLabelMapping = ["noteworthy": "Noteworthy", "bugfix": "Bugfixes"]
 }
 
+static String commitMessage(String message) {
+    def buildNo = System.env.TRAVIS_BUILD_NUMBER
+    if (buildNo) {
+        return message + " by Travis CI build $System.env.TRAVIS_BUILD_NUMBER [ci skip]"
+    } else {
+        return message + " [ci skip]"
+    }
+}
+
+task gitAddBumpVersion(type: Exec) {
+    mustRunAfter tasks.bumpVersionFile
+    commandLine = ["git", "add", "version.properties"]
+}
+
+task gitAddReleaseNotes(type: Exec) {
+    mustRunAfter tasks.updateReleaseNotes
+    commandLine = ["git", "add", notes.notesFile]
+}
+
+task gitCommit(type: Exec) {
+    mustRunAfter tasks.gitAddBumpVersion, tasks.gitAddReleaseNotes
+    commandLine = ["git", "commit", "--author", "Mockito Release Tools <mockito.release.tools@gmail.com>",
+                   "-m", commitMessage("Bumped version and updated release notes")]
+}
+
+task gitTag(type: Exec) {
+    commandLine "git", "tag", "-a", "v${project.version}", "-m", commitMessage("Created new tag v${project.version}")
+}
+
+task gitPush(type: Exec) {
+    description = "Pushes changes to '${System.env.TRAVIS_BRANCH}' branch."
+
+    mustRunAfter gitCommit, gitTag
+
+    //Using doFirst so that we can pick up updated 'releaseDryRun' property
+    doFirst {
+        ['TRAVIS_BRANCH', 'GH_TOKEN'].each {
+            assert System.env[it]: "Please export '$it' env variable first."
+        }
+        //!!!Below command _MUST_ be quiet otherwise it exposes GitHub write token!!!
+        def mustBeQuiet = "-q"
+        commandLine = ["git", "push",
+                               "https://szczepiq:${System.env.GH_TOKEN}@github.com/mockito/mockito-release-tools-example.git",
+                               System.env.TRAVIS_BRANCH, "v$project.version", mustBeQuiet]
+        if (rootProject.ext.has('releaseDryRun')) {
+            println "Running 'git push' with '--dry-run'"
+            commandLine += ['--dry-run']
+            assert commandLine.contains('--dry-run') //paranoia, I love Groovy
+        }
+    }
+}
+
+task bintrayUploadAll {
+    description = "Depends on all 'bintrayUpload' tasks from all Gradle projects."
+}
+
+task performRelease {
+    description = "Performs release. To test release use './gradlew performRelease releaseCleanUp -PreleaseDryRun'"
+
+    dependsOn bumpVersionFile, updateReleaseNotes
+    dependsOn gitAddBumpVersion, gitAddReleaseNotes, gitCommit, gitTag
+    dependsOn gitPush
+    dependsOn bintrayUploadAll
+}
+
+task gitCommitCleanUp(type: Exec) {
+    mustRunAfter performRelease
+    commandLine = ["git", "reset", "--hard", "HEAD~"]
+}
+
+task gitTagCleanUp(type: Exec) {
+    mustRunAfter performRelease
+    commandLine = ["git", "tag", "-d", "v$project.version"]
+}
+
+task releaseCleanUp {
+    //using finalizedBy so that all clean up tasks run, even if one of them fails
+    finalizedBy gitCommitCleanUp
+    finalizedBy gitTagCleanUp
+}
+
+task finalizeRelease {
+    description = "Finalizes the release, pushes code, publishes to repositories."
+
+    dependsOn gitPush
+    dependsOn bintrayUploadAll
+}
+
 allprojects {
     plugins.withId("maven-publish") {
         project.publishing {
@@ -20,11 +108,25 @@ allprojects {
 
         project.apply plugin: "com.jfrog.bintray"
 
+        bintrayUploadAll.dependsOn bintrayUpload
+        bintrayUpload.doFirst {
+            ['BINTRAY_API_KEY'].each { assert System.env[it]: "Please export '$it' env variable first." }
+
+            //Using doFirst so that we can pick up updated 'releaseDryRun' property
+            it.dryRun = rootProject.ext.has("releaseDryRun")
+
+            println "Publishing to Bintray. Dry run is: $it.dryRun"
+        }
+
         bintray {
             user = 'szczepiq'
             key = System.env.BINTRAY_API_KEY
 
-            publications = project.publishing.publications*.name
+            afterEvaluate {
+                //we have to access publications as late as possible,
+                // otherwise stuff does not work, for example pom does not have dependencies :)
+                publications = project.publishing.publications*.name
+            }
 
             publish = true
 
@@ -34,8 +136,8 @@ allprojects {
                 name = 'mockito-release-tools-example'
                 desc = project.description
                 websiteUrl = 'http://mockito.org'
-                issueTrackerUrl = 'https://github.com/mockito/mockito-release-tools/issues'
-                vcsUrl = 'https://github.com/mockito/mockito-release-tools.git'
+                issueTrackerUrl = 'https://github.com/mockito/mockito-release-tools-example/issues'
+                vcsUrl = 'https://github.com/mockito/mockito-release-tools-example.git'
                 licenses = ['MIT']
                 labels = ['continuous delivery', 'release automation', 'mockito']
                 publicDownloadNumbers = true
