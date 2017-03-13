@@ -14,7 +14,7 @@ before_install:
   - echo "$TRAVIS_COMMIT_MESSAGE"
 
 jdk:
-  - openjdk6
+  - openjdk8
 
 env:
   global:
@@ -32,5 +32,5 @@ install:
 script:
   - ./gradlew build -s
 
-#after_success:
-#  - ./gradlew performRelease releaseCleanUp -PreleaseDryRun && ./gradlew performRelease
+after_success:
+  - ./gradlew travisReleasePrepare && ./gradlew performRelease releaseCleanUp -PreleaseDryRun && ./gradlew performRelease
