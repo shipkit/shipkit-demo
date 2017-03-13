@@ -25,7 +25,7 @@ branches:
   except:
   - /^v\d/
 
-#TODO what is this?
+#Below skips the installation step completely (https://docs.travis-ci.com/user/customizing-the-build/#Skipping-the-Installation-Step)
 install:
  - true
 
@@ -33,4 +33,4 @@ script:
   - ./gradlew build -s
 
 after_success:
-  - ./gradlew travisReleasePrepare && ./gradlew performRelease releaseCleanUp -PreleaseDryRun && ./gradlew performRelease
+  - ./gradlew travisRelease
