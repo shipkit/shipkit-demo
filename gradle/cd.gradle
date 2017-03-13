@@ -1,0 +1,207 @@
+static String commitMessage(String message) {
+    def buildNo = System.env.TRAVIS_BUILD_NUMBER
+    if (buildNo) {
+        return message + " by Travis CI build $System.env.TRAVIS_BUILD_NUMBER [ci skip]"
+    } else {
+        return message + " [ci skip]"
+    }
+}
+
+task gitAddBumpVersion(type: Exec) {
+    description = "Performs 'git add' for the version properties file"
+    mustRunAfter tasks.bumpVersionFile
+    commandLine = ["git", "add", "version.properties"]
+}
+
+task gitAddReleaseNotes(type: Exec) {
+    description = "Performs 'git add' for the release notes file"
+    mustRunAfter tasks.updateReleaseNotes
+    doFirst { //so that we can access user-configured 'notesFile' property
+        commandLine = ["git", "add", notes.notesFile]
+    }
+}
+
+task gitCommit(type: Exec) {
+    description = "Commits staged changes using generic --author"
+    mustRunAfter tasks.gitAddBumpVersion, tasks.gitAddReleaseNotes
+    commandLine = ["git", "commit", "--author", "Mockito Release Tools <mockito.release.tools@gmail.com>",
+                   "-m", commitMessage("Bumped version and updated release notes")]
+}
+
+task gitTag(type: Exec) {
+    description = "Creates new version tag 'v${project.version}'"
+    commandLine "git", "tag", "-a", "v${project.version}", "-m", commitMessage("Created new tag v${project.version}")
+}
+
+static String envVar(String name) {
+    def envValue = System.getenv(name)
+    assert envValue : "Please export '$name' env variable first!"
+    envValue
+}
+
+task gitPush(type: Exec) {
+    description = "Pushes changes to remote repo."
+
+    mustRunAfter gitCommit, gitTag
+
+    //Using doFirst so that we can pick up updated 'releaseDryRun' property
+    doFirst {
+        //!!!Below command _MUST_ be quiet otherwise it exposes GitHub write token!!!
+        //TODO when git push fails it exposes the token, fix it!
+        def mustBeQuiet = "-q"
+        commandLine = ["git", "push",
+                       "https://szczepiq:${envVar('GH_TOKEN')}@github.com/mockito/mockito-release-tools-example.git",
+                       envVar('TRAVIS_BRANCH'), "v$project.version", mustBeQuiet]
+        if (rootProject.ext.has('releaseDryRun')) {
+            println "Running 'git push' with '--dry-run'"
+            commandLine += ['--dry-run']
+            assert commandLine.contains('--dry-run') //paranoia, I love Groovy
+        }
+    }
+}
+
+task bintrayUploadAll {
+    description = "Depends on all 'bintrayUpload' tasks from all Gradle projects."
+}
+
+task performRelease {
+    description = "Performs release. To test release use './gradlew performRelease releaseCleanUp -PreleaseDryRun'"
+
+    dependsOn bumpVersionFile, updateReleaseNotes
+    dependsOn gitAddBumpVersion, gitAddReleaseNotes, gitCommit, gitTag
+    dependsOn gitPush
+    dependsOn bintrayUploadAll
+}
+
+task gitCommitCleanUp(type: Exec) {
+    description = "Removes last commit, using 'reset --hard HEAD~'"
+    mustRunAfter performRelease
+    commandLine = ["git", "reset", "--hard", "HEAD~"]
+}
+
+task gitTagCleanUp(type: Exec) {
+    description = "Deletes version tag 'v$project.version'"
+    mustRunAfter performRelease
+    commandLine = ["git", "tag", "-d", "v$project.version"]
+}
+
+task releaseCleanUp {
+    description = "Cleans up the working copy, useful after dry running the release"
+    //using finalizedBy so that all clean up tasks run, even if one of them fails
+    finalizedBy gitCommitCleanUp
+    finalizedBy gitTagCleanUp
+}
+
+task pullCommits(type: Exec) {
+    description = "Performs 'git pull' to ensure good chunk of recent commits is available for release notes automation"
+    //Travis default clone is pretty shallow
+    //Loading extra 1K commits (1.x -> 2.x had ~700 commits)
+    doFirst { //doFirst so that we validate presence of env variable beforehand
+        commandLine "git", "pull", "--depth", "1000", "origin", envVar('TRAVIS_BRANCH')
+    }
+}
+
+task checkOutBranch(type: Exec) {
+    description = "Checks out the branch that can be committed. CI systems often check out revision that is not committable."
+    doFirst { //using doFirst() so that we request and validate presence of env var only during execution time
+        commandLine = ["git", "checkout", envVar('TRAVIS_BRANCH')]
+    }
+}
+
+task travisReleasePrepare {
+    description = "Prepares the working copy for releasing using Travis CI"
+    dependsOn pullCommits, checkOutBranch
+}
+
+static boolean  isReleasableBranch(String branch) {
+    // matches 'master', 'release/2.x', 'release/3.x', etc.
+    branch?.matches("master|release/.+")
+}
+
+static boolean isPullRequest() {
+    //returns true only if pull request env variable points to PR number
+    def envVar = System.env.TRAVIS_PULL_REQUEST
+    envVar != null && envVar != '' && envVar != 'false'
+}
+
+task travisRelease {
+    description = "Performs the release, inteded to be used by Travis CI job"
+    doLast {
+        def skipEnvVariable = System.env.SKIP_RELEASE
+        def skippedByCommitMessage = System.env.TRAVIS_COMMIT_MESSAGE?.contains('[ci skip-release]')
+        def pullRequest = isPullRequest()
+        def releasableBranch = isReleasableBranch(System.env.TRAVIS_BRANCH)
+
+        if (skipEnvVariable || skipEnvVariable || pullRequest || !releasableBranch) {
+            logger.lifecycle("""Release is skipped.
+  - skip by env variable: $skipEnvVariable
+  - skip by commit message: $skippedByCommitMessage
+  - is pull request build: $pullRequest
+  - is releasable branch: $releasableBranch""")
+        } else {
+            //first, we need to prepare Travis working copy
+            exec { commandLine "./gradlew", "travisReleasePrepare" }
+            //then, we will do the full release with dry run to flesh out any issues
+            exec { commandLine "./gradlew", "performRelease", "releaseCleanUp", "-PreleaseDryRun" }
+            //finally, let's make the release!
+            exec { commandLine "./gradlew", "performRelease" }
+        }
+    }
+}
+
+allprojects {
+    plugins.withId("maven-publish") {
+        project.publishing {
+            publications {
+                DefaultPublication(MavenPublication) {
+                    from components.java
+                }
+            }
+        }
+
+        project.apply plugin: "com.jfrog.bintray"
+
+        bintrayUploadAll.dependsOn bintrayUpload
+        bintrayUpload.doFirst {
+            it.apiKey = envVar('BINTRAY_API_KEY') //validates the presence of the env var
+
+            //Using doFirst so that we can pick up updated 'releaseDryRun' property
+            it.dryRun = rootProject.ext.has("releaseDryRun")
+
+            println "$path - publishing to Bintray (dry run: $it.dryRun)"
+        }
+
+        bintray {
+            user = 'szczepiq'
+
+            afterEvaluate {
+                //we have to access publications as late as possible,
+                // otherwise stuff does not work, for example pom does not have dependencies :)
+                publications = project.publishing.publications*.name
+            }
+
+            publish = true
+
+            pkg {
+                repo = 'mockito-release-tools-example-repo'
+                userOrg = 'mockito'
+                name = 'mockito-release-tools-example'
+                desc = project.description
+                websiteUrl = 'http://mockito.org'
+                issueTrackerUrl = 'https://github.com/mockito/mockito-release-tools-example/issues'
+                vcsUrl = 'https://github.com/mockito/mockito-release-tools-example.git'
+                licenses = ['MIT']
+                labels = ['continuous delivery', 'release automation', 'mockito']
+                publicDownloadNumbers = true
+
+                // optional version attributes
+                version {
+                    vcsTag = "v$project.version"
+                    gpg {
+                        sign = true
+                    }
+                }
+            }
+        }
+    }
+}
