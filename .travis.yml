@@ -14,7 +14,7 @@ before_install:
   - echo "$TRAVIS_COMMIT_MESSAGE"
 
 jdk:
-  - openjdk8
+  - oraclejdk8
 
 env:
   global:
