@@ -33,4 +33,4 @@ script:
   - ./gradlew build -s
 
 after_success:
-  - ./gradlew travisRelease
+  - ./gradlew travisRelease -s
