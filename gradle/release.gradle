@@ -18,40 +18,48 @@ static String commitMessage(String message) {
 }
 
 task gitAddBumpVersion(type: Exec) {
+    description = "Performs 'git add' for the version properties file"
     mustRunAfter tasks.bumpVersionFile
     commandLine = ["git", "add", "version.properties"]
 }
 
 task gitAddReleaseNotes(type: Exec) {
+    description = "Performs 'git add' for the release notes file"
     mustRunAfter tasks.updateReleaseNotes
     commandLine = ["git", "add", notes.notesFile]
 }
 
 task gitCommit(type: Exec) {
+    description = "Commits staged changes using generic --author"
     mustRunAfter tasks.gitAddBumpVersion, tasks.gitAddReleaseNotes
     commandLine = ["git", "commit", "--author", "Mockito Release Tools <mockito.release.tools@gmail.com>",
                    "-m", commitMessage("Bumped version and updated release notes")]
 }
 
 task gitTag(type: Exec) {
+    description = "Creates new version tag 'v${project.version}'"
     commandLine "git", "tag", "-a", "v${project.version}", "-m", commitMessage("Created new tag v${project.version}")
 }
 
+static String envVar(String name) {
+    def out = System.getenv(name)
+    assert out : "Please export '$name' env variable first!"
+    out
+}
+
 task gitPush(type: Exec) {
-    description = "Pushes changes to '${System.env.TRAVIS_BRANCH}' branch."
+    description = "Pushes changes to remote repo."
 
     mustRunAfter gitCommit, gitTag
 
     //Using doFirst so that we can pick up updated 'releaseDryRun' property
     doFirst {
-        ['TRAVIS_BRANCH', 'GH_TOKEN'].each {
-            assert System.env[it]: "Please export '$it' env variable first."
-        }
         //!!!Below command _MUST_ be quiet otherwise it exposes GitHub write token!!!
+        //TODO when git push fails it exposes the token, fix it!
         def mustBeQuiet = "-q"
         commandLine = ["git", "push",
-                               "https://szczepiq:${System.env.GH_TOKEN}@github.com/mockito/mockito-release-tools-example.git",
-                               System.env.TRAVIS_BRANCH, "v$project.version", mustBeQuiet]
+                       "https://szczepiq:${envVar('GH_TOKEN')}@github.com/mockito/mockito-release-tools-example.git",
+                       envVar('TRAVIS_BRANCH'), "v$project.version", mustBeQuiet]
         if (rootProject.ext.has('releaseDryRun')) {
             println "Running 'git push' with '--dry-run'"
             commandLine += ['--dry-run']
@@ -74,26 +82,43 @@ task performRelease {
 }
 
 task gitCommitCleanUp(type: Exec) {
+    description = "Removes last commit, using 'reset --hard HEAD~'"
     mustRunAfter performRelease
     commandLine = ["git", "reset", "--hard", "HEAD~"]
 }
 
 task gitTagCleanUp(type: Exec) {
+    description = "Deletes version tag 'v$project.version'"
     mustRunAfter performRelease
     commandLine = ["git", "tag", "-d", "v$project.version"]
 }
 
 task releaseCleanUp {
+    description = "Cleans up the working copy, useful after dry running the release"
     //using finalizedBy so that all clean up tasks run, even if one of them fails
     finalizedBy gitCommitCleanUp
     finalizedBy gitTagCleanUp
 }
 
-task finalizeRelease {
-    description = "Finalizes the release, pushes code, publishes to repositories."
+task pullCommits(type: Exec) {
+    description = "Performs 'git pull' to ensure good chunk of recent commits is available for release notes automation"
+    //Travis default clone is pretty shallow
+    //Loading extra 1K commits (1.x -> 2.x had ~700 commits)
+    doFirst { //doFirst so that we validate presence of env variable beforehand
+        commandLine "git", "pull", "--depth", "1000", "origin", envVar('TRAVIS_BRANCH')
+    }
+}
 
-    dependsOn gitPush
-    dependsOn bintrayUploadAll
+task checkOutBranch(type: Exec) {
+    description = "Checks out the branch that can be committed. CI systems often check out revision that is not committable."
+    doFirst { //using doFirst() so that we request and validate presence of env var only during execution time
+        commandLine = ["git", "checkout", envVar('TRAVIS_BRANCH')]
+    }
+}
+
+task travisReleasePrepare {
+    description = "Prepares the working copy for releasing using Travis CI"
+    dependsOn pullCommits, checkOutBranch
 }
 
 allprojects {
@@ -110,17 +135,17 @@ allprojects {
 
         bintrayUploadAll.dependsOn bintrayUpload
         bintrayUpload.doFirst {
-            ['BINTRAY_API_KEY'].each { assert System.env[it]: "Please export '$it' env variable first." }
+            envVar('BINTRAY_API_KEY') //validates the presence of the env var
 
             //Using doFirst so that we can pick up updated 'releaseDryRun' property
             it.dryRun = rootProject.ext.has("releaseDryRun")
 
-            println "Publishing to Bintray. Dry run is: $it.dryRun"
+            println "$path - publishing to Bintray (dry run: $it.dryRun)"
         }
 
         bintray {
             user = 'szczepiq'
-            key = System.env.BINTRAY_API_KEY
+            key = envVar('BINTRAY_API_KEY')
 
             afterEvaluate {
                 //we have to access publications as late as possible,
