@@ -121,6 +121,42 @@ task travisReleasePrepare {
     dependsOn pullCommits, checkOutBranch
 }
 
+static boolean  isReleasableBranch(String branch) {
+    // matches 'master', 'release/2.x', 'release/3.x', etc.
+    branch?.matches("master|release/.+")
+}
+
+static boolean isPullRequest() {
+    //returns true only if pull request env variable points to PR number
+    def envVar = System.env.TRAVIS_PULL_REQUEST
+    envVar != null && envVar != '' && envVar != 'false'
+}
+
+task travisRelease {
+    description = "Performs the release, inteded to be used by Travis CI job"
+    doLast {
+        def skipEnvVariable = System.env.SKIP_RELEASE
+        def skippedByCommitMessage = System.env.TRAVIS_COMMIT_MESSAGE?.contains('[ci skip-release]')
+        def pullRequest = isPullRequest()
+        def releasableBranch = isReleasableBranch(System.env.TRAVIS_BRANCH)
+        
+        if (skipEnvVariable || skipEnvVariable || pullRequest || !releasableBranch) {
+            logger.lifecycle("""Release is skipped.
+  - skip by env variable: $skipEnvVariable
+  - skip by commit message: $skippedByCommitMessage
+  - is pull request build: $pullRequest
+  - is releasable branch: $releasableBranch""")
+        } else {
+            //first, we need to prepare Travis working copy
+            exec { commandLine "./gradlew", "travisReleasePrepare" }
+            //then, we will do the full release with dry run to flesh out any issues
+            exec { commandLine "./gradlew", "performRelease", "releaseCleanUp", "-PreleaseDryRun" }
+            //finally, let's make the release!
+            exec { commandLine "./gradlew", "performRelease" }
+        }
+    }
+}
+
 allprojects {
     plugins.withId("maven-publish") {
         project.publishing {
