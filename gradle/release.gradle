@@ -42,9 +42,9 @@ task gitTag(type: Exec) {
 }
 
 static String envVar(String name) {
-    def out = System.getenv(name)
-    assert out : "Please export '$name' env variable first!"
-    out
+    def envValue = System.getenv(name)
+    assert envValue : "Please export '$name' env variable first!"
+    envValue
 }
 
 task gitPush(type: Exec) {
@@ -171,7 +171,7 @@ allprojects {
 
         bintrayUploadAll.dependsOn bintrayUpload
         bintrayUpload.doFirst {
-            envVar('BINTRAY_API_KEY') //validates the presence of the env var
+            it.apiKey = envVar('BINTRAY_API_KEY') //validates the presence of the env var
 
             //Using doFirst so that we can pick up updated 'releaseDryRun' property
             it.dryRun = rootProject.ext.has("releaseDryRun")
@@ -181,7 +181,6 @@ allprojects {
 
         bintray {
             user = 'szczepiq'
-            key = envVar('BINTRAY_API_KEY')
 
             afterEvaluate {
                 //we have to access publications as late as possible,
