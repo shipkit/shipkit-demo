@@ -8,3 +8,28 @@ notes {
     gitHubAuthToken = "e7fe8fcdd6ffed5c38498c4c79b2a68e6f6ed1bb" //read-only token
     gitHubLabelMapping = ["noteworthy": "Noteworthy", "bugfix": "Bugfixes"]
 }
+
+ext {
+    genericGitAuthor = "Mockito Release Tools <mockito.release.tools@gmail.com>"
+    gitHubUser = "szczepiq"
+    //Travis CI uses shallow clone, loading extra commits for release notes (1.x -> 2.x had ~700 commits)
+    commitsToPullForTravis = 1000
+    releasableBranchRegex = "tmp|master|release/.+"  // matches 'master', 'release/2.x', 'release/3.x', etc.
+}
+
+allprojects {
+    plugins.withId("com.jfrog.bintray") {
+        bintray {
+            pkg {
+                repo = 'mockito-release-tools-example-repo'
+                userOrg = 'mockito'
+                name = 'mockito-release-tools-example'
+                websiteUrl = 'http://mockito.org'
+                issueTrackerUrl = 'https://github.com/mockito/mockito-release-tools-example/issues'
+                vcsUrl = 'https://github.com/mockito/mockito-release-tools-example.git'
+                licenses = ['MIT']
+                labels = ['continuous delivery', 'release automation', 'mockito']
+            }
+        }
+    }
+}

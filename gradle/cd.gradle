@@ -35,7 +35,9 @@ task gitTag(type: Exec) {
 
 static String envVar(String name) {
     def envValue = System.getenv(name)
-    assert envValue : "Please export '$name' env variable first!"
+    if (!envValue) {
+        throw new GradleException("Please export '$name' env variable first!")
+    }
     envValue
 }
 
@@ -50,10 +52,10 @@ task gitPush(type: Exec) {
         //TODO when git push fails it exposes the token, fix it!
         def mustBeQuiet = "-q"
         commandLine = ["git", "push",
-                       "https://szczepiq:${envVar('GH_TOKEN')}@github.com/mockito/mockito-release-tools-example.git",
+                       "https://${project.ext.gitHubUser}:${envVar('GH_TOKEN')}@github.com/${notes.gitHubRepository}.git",
                        envVar('TRAVIS_BRANCH'), "v$project.version", mustBeQuiet]
         if (rootProject.ext.has('releaseDryRun')) {
-            println "Running 'git push' with '--dry-run'"
+            logger.lifecycle "Running 'git push' with '--dry-run'"
             commandLine += ['--dry-run']
             assert commandLine.contains('--dry-run') //paranoia, I love Groovy
         }
@@ -95,9 +97,9 @@ task releaseCleanUp {
 task pullCommits(type: Exec) {
     description = "Performs 'git pull' to ensure good chunk of recent commits is available for release notes automation"
     //Travis default clone is pretty shallow
-    //Loading extra 1K commits (1.x -> 2.x had ~700 commits)
+    //Loading extra commits (1.x -> 2.x had ~700 commits)
     doFirst { //doFirst so that we validate presence of env variable beforehand
-        commandLine "git", "pull", "--depth", "1000", "origin", envVar('TRAVIS_BRANCH')
+        commandLine "git", "pull", "--depth", project.ext.commitsToPullForTravis, "origin", envVar('TRAVIS_BRANCH')
     }
 }
 
@@ -113,11 +115,6 @@ task travisReleasePrepare {
     dependsOn pullCommits, checkOutBranch
 }
 
-static boolean  isReleasableBranch(String branch) {
-    // matches 'master', 'release/2.x', 'release/3.x', etc.
-    branch?.matches("master|release/.+")
-}
-
 static boolean isPullRequest() {
     //returns true only if pull request env variable points to PR number
     def envVar = System.env.TRAVIS_PULL_REQUEST
@@ -130,7 +127,7 @@ task releaseNeeded {
         def skipEnvVariable = System.env.SKIP_RELEASE
         def skippedByCommitMessage = System.env.TRAVIS_COMMIT_MESSAGE?.contains('[ci skip-release]')
         def pullRequest = isPullRequest()
-        def releasableBranch = isReleasableBranch(System.env.TRAVIS_BRANCH)
+        def releasableBranch = System.env.TRAVIS_BRANCH?.matches(project.ext.releasableBranchRegex)
 
         if (skipEnvVariable || skippedByCommitMessage || pullRequest || !releasableBranch) {
             ext.needed = false
@@ -189,12 +186,10 @@ allprojects {
             //Using doFirst so that we can pick up updated 'releaseDryRun' property
             it.dryRun = rootProject.ext.has("releaseDryRun")
 
-            println "$path - publishing to Bintray (dry run: $it.dryRun)"
+            logger.lifecycle "$path - publishing to Bintray (dry run: $it.dryRun)"
         }
 
         bintray {
-            user = 'szczepiq'
-
             afterEvaluate {
                 //we have to access publications as late as possible,
                 // otherwise stuff does not work, for example pom does not have dependencies :)
@@ -204,15 +199,7 @@ allprojects {
             publish = true
 
             pkg {
-                repo = 'mockito-release-tools-example-repo'
-                userOrg = 'mockito'
-                name = 'mockito-release-tools-example'
                 desc = project.description
-                websiteUrl = 'http://mockito.org'
-                issueTrackerUrl = 'https://github.com/mockito/mockito-release-tools-example/issues'
-                vcsUrl = 'https://github.com/mockito/mockito-release-tools-example.git'
-                licenses = ['MIT']
-                labels = ['continuous delivery', 'release automation', 'mockito']
                 publicDownloadNumbers = true
 
                 // optional version attributes
