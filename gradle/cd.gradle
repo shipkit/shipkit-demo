@@ -100,6 +100,7 @@ task pullCommits(type: Exec) {
     //Loading extra commits (1.x -> 2.x had ~700 commits)
     doFirst { //doFirst so that we validate presence of env variable beforehand
         commandLine "git", "pull", "--depth", project.ext.commitsToPullForTravis, "origin", envVar('TRAVIS_BRANCH')
+        logger.lifecycle "Running: " + commandLine.join(' ')
     }
 }
 
