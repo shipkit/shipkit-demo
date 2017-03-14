@@ -33,7 +33,7 @@ install:
  - true
 
 script:
-  - ./gradlew pullCommits checkOutBranch
+  - ./gradlew gitUnshallow checkOutBranch
 #  - ./gradlew build -s
 
 after_success:
