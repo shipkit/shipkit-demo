@@ -33,7 +33,8 @@ install:
  - true
 
 script:
-  - ./gradlew build -s
+  - ./gradlew pullCommits checkOutBranch
+#  - ./gradlew build -s
 
 after_success:
-  - ./gradlew travisRelease -s
+#  - ./gradlew travisRelease -s
