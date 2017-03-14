@@ -94,13 +94,19 @@ task releaseCleanUp {
     finalizedBy gitTagCleanUp
 }
 
-task pullCommits(type: Exec) {
-    description = "Performs 'git pull' to ensure good chunk of recent commits is available for release notes automation"
-    //Travis default clone is pretty shallow
-    //Loading extra commits (1.x -> 2.x had ~700 commits)
-    doFirst { //doFirst so that we validate presence of env variable beforehand
-        //commandLine "git", "pull", "--depth", project.ext.commitsToPullForTravis, "origin", envVar('TRAVIS_BRANCH')
-        commandLine "git", "fetch", "--unshallow"
+task gitUnshallow(type: Exec) {
+    //Travis default clone is shallow which will prevent correct release notes generation for repos with lots of commits
+    commandLine "git", "fetch", "--unshallow"
+
+    description = "Performs '${commandLine.join(' ')}' to ensure good chunk of recent commits is available for release notes automation"
+
+    ignoreExitValue = true
+    doLast {
+        if (execResult.exitValue != 0) {
+            logger.lifecycle "Ignoring failed git command:" +
+                    "\n  ${commandLine.join(' ')}" +
+                    "\n  Most likely the repository already contains all history"
+        }
     }
 }
 
@@ -113,7 +119,7 @@ task checkOutBranch(type: Exec) {
 
 task travisReleasePrepare {
     description = "Prepares the working copy for releasing using Travis CI"
-    dependsOn pullCommits, checkOutBranch
+    dependsOn gitUnshallow, checkOutBranch
 }
 
 static boolean isPullRequest() {
