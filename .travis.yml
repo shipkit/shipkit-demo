@@ -33,8 +33,7 @@ install:
  - true
 
 script:
-  - ./gradlew gitUnshallow checkOutBranch
-#  - ./gradlew build -s
+  - ./gradlew build -s
 
 after_success:
-#  - ./gradlew travisRelease -s
+  - ./gradlew travisRelease -s

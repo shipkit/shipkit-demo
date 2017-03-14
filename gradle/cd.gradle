@@ -103,9 +103,9 @@ task gitUnshallow(type: Exec) {
     ignoreExitValue = true
     doLast {
         if (execResult.exitValue != 0) {
-            logger.lifecycle "Ignoring failed git command:" +
-                    "\n  ${commandLine.join(' ')}" +
-                    "\n  Most likely the repository already contains all history"
+            logger.lifecycle "Following git command failed and will be ignored:" +
+                    "\n - ${commandLine.join(' ')}" +
+                    "\n - Most likely the repository already contains all history"
         }
     }
 }
