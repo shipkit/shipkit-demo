@@ -65,7 +65,7 @@ task bintrayUploadAll {
 }
 
 task performRelease {
-    description = "Performs release. To test release use './gradlew performRelease releaseCleanUp -PreleaseDryRun'"
+    description = "Performs release. To test release use './gradlew testRelease'"
 
     dependsOn bumpVersionFile, updateReleaseNotes
     dependsOn gitAddBumpVersion, gitAddReleaseNotes, gitCommit, gitTag
@@ -124,28 +124,49 @@ static boolean isPullRequest() {
     envVar != null && envVar != '' && envVar != 'false'
 }
 
-task travisRelease {
-    description = "Performs the release, inteded to be used by Travis CI job"
+task releaseNeeded {
+    description = "Checks if the criteria for the release are met."
     doLast {
         def skipEnvVariable = System.env.SKIP_RELEASE
         def skippedByCommitMessage = System.env.TRAVIS_COMMIT_MESSAGE?.contains('[ci skip-release]')
         def pullRequest = isPullRequest()
         def releasableBranch = isReleasableBranch(System.env.TRAVIS_BRANCH)
 
-        if (skipEnvVariable || skipEnvVariable || pullRequest || !releasableBranch) {
-            logger.lifecycle("""Release is skipped.
+        if (skipEnvVariable || skippedByCommitMessage || pullRequest || !releasableBranch) {
+            ext.needed = false
+        } else {
+            ext.needed = true
+        }
+
+        logger.lifecycle("""Release is needed: $needed
   - skip by env variable: $skipEnvVariable
   - skip by commit message: $skippedByCommitMessage
   - is pull request build: $pullRequest
   - is releasable branch: $releasableBranch""")
-        } else {
-            //first, we need to prepare Travis working copy
-            exec { commandLine "./gradlew", "travisReleasePrepare" }
-            //then, we will do the full release with dry run to flesh out any issues
-            exec { commandLine "./gradlew", "performRelease", "releaseCleanUp", "-PreleaseDryRun" }
-            //finally, let's make the release!
-            exec { commandLine "./gradlew", "performRelease" }
-        }
+    }
+}
+
+task travisRelease {
+    description = "Performs the release if release criteria are met, intended to be used by Travis CI job"
+
+    dependsOn releaseNeeded
+    onlyIf { releaseNeeded.needed }
+
+    doLast {
+        //first, we need to prepare Travis working copy
+        exec { commandLine "./gradlew", "travisReleasePrepare" }
+        //then, we will do the full release with dry run to flesh out any issues
+        exec { commandLine "./gradlew", "performRelease", "releaseCleanUp", "-PreleaseDryRun" }
+        //finally, let's make the release!
+        exec { commandLine "./gradlew", "performRelease" }
+    }
+}
+
+task testRelease {
+    description = "Tests the release, intended to be used locally by engineers"
+
+    doLast {
+        exec { commandLine "./gradlew", "performRelease", "releaseCleanUp", "-PreleaseDryRun" }
     }
 }
 
