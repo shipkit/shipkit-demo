@@ -9,6 +9,7 @@ cache:
 
 language: java
 
+#TODO why do we need below?
 before_install:
   - export TRAVIS_COMMIT_MESSAGE=$(git log --format=%B -n 1 $TRAVIS_COMMIT)
   - echo "$TRAVIS_COMMIT_MESSAGE"
@@ -16,11 +17,13 @@ before_install:
 jdk:
   - oraclejdk8
 
+#TODO why do we need below?
 env:
   global:
   - TERM=dumb
   - GRADLE_OPTS="-XX:+UseCompressedOops -Djava.awt.headless=true"
 
+#don't build tags
 branches:
   except:
   - /^v\d/
