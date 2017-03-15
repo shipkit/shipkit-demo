@@ -16,8 +16,8 @@ task gitAddBumpVersion(type: Exec) {
 task gitAddReleaseNotes(type: Exec) {
     description = "Performs 'git add' for the release notes file"
     mustRunAfter tasks.updateReleaseNotes
-    doFirst { //so that we can access user-configured 'notesFile' property
-        commandLine = ["git", "add", notes.notesFile]
+    doFirst { //so that we can access user-configured 'releaseNotesFile' property
+        commandLine = ["git", "add", notes.releaseNotesFile]
     }
 }
 
