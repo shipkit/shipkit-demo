@@ -103,9 +103,9 @@ task gitUnshallow(type: Exec) {
     ignoreExitValue = true
     doLast {
         if (execResult.exitValue != 0) {
-            logger.lifecycle "Following git command failed and will be ignored:" +
-                    "\n - ${commandLine.join(' ')}" +
-                    "\n - Most likely the repository already contains all history"
+            logger.lifecycle "  Following git command failed and will be ignored:" +
+                    "\n    \"${commandLine.join(' ')}\"" +
+                    "\n  Most likely the repository already contains all history"
         }
     }
 }
@@ -117,9 +117,29 @@ task checkOutBranch(type: Exec) {
     }
 }
 
+task configureGitUserName(type: Exec) {
+    description = "Overwrites local git 'user.name' with a generic name. Intended for Travis CI."
+    commandLine = ["git", "config", "--local", "user.name", "Mockito Release Tools"]
+}
+
+task configureGitUserEmail(type: Exec) {
+    description = "Overwrites local git 'user.email' with a generic email. Intended for Travis CI."
+    commandLine = ["git", "config", "--local", "user.email", "mockito.release.tools@gmail.com"]
+}
+
+tasks.withType(Exec) {
+    doFirst {
+        if (commandLine) {
+            //why the 'if' statement here?
+            //sometimes we use doFirst() to configure the commandLine and hence it would be empty
+            logger.lifecycle "Running:\n  " + commandLine.join(" ")
+        }
+    }
+}
+
 task travisReleasePrepare {
     description = "Prepares the working copy for releasing using Travis CI"
-    dependsOn gitUnshallow, checkOutBranch
+    dependsOn gitUnshallow, checkOutBranch, configureGitUserName, configureGitUserEmail
 }
 
 static boolean isPullRequest() {
