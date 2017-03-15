@@ -41,23 +41,29 @@ static String envVar(String name) {
     envValue
 }
 
-task gitPush(type: Exec) {
+task gitPush {
     description = "Pushes changes to remote repo."
 
     mustRunAfter gitCommit, gitTag
 
-    //Using doFirst so that we can pick up updated 'releaseDryRun' property
     doFirst {
-        //!!!Below command _MUST_ be quiet otherwise it exposes GitHub write token!!!
-        //TODO when git push fails it exposes the token, fix it!
-        def mustBeQuiet = "-q"
-        commandLine = ["git", "push",
-                       "https://${project.ext.gitHubUser}:${envVar('GH_TOKEN')}@github.com/${notes.gitHubRepository}.git",
-                       envVar('TRAVIS_BRANCH'), "v$project.version", mustBeQuiet]
-        if (rootProject.ext.has('releaseDryRun')) {
-            logger.lifecycle "Running 'git push' with '--dry-run'"
-            commandLine += ['--dry-run']
-            assert commandLine.contains('--dry-run') //paranoia, I love Groovy
+        //!!!We are using 'exec' method and not Exec task on purpose so that there is no risk of exposing the token!
+        //!!!For exampleExec task can be configured with doFirst() to print all command line parameters
+        exec {
+            //!!!Below command _MUST_ be quiet otherwise it exposes GitHub write token!!!
+            def mustBeQuiet = "-q"
+            commandLine = ["git", "push",
+                           "https://${project.ext.gitHubUser}:${envVar('GH_TOKEN')}@github.com/${notes.gitHubRepository}.git",
+                           envVar('TRAVIS_BRANCH'), "v$project.version", mustBeQuiet]
+            if (rootProject.ext.has('releaseDryRun')) {
+                logger.lifecycle "  Running 'git push' with '--dry-run' in quiet mode."
+                commandLine += ['--dry-run']
+                assert commandLine.contains('--dry-run') //paranoia, I love Groovy
+            }
+            //!!!We must capture and hide the output because when git push fails it can expose the token!
+            def output = new ByteArrayOutputStream()
+            standardOutput = output
+            errorOutput = output
         }
     }
 }
@@ -129,10 +135,12 @@ task configureGitUserEmail(type: Exec) {
 
 tasks.withType(Exec) {
     doFirst {
-        if (commandLine) {
+        def command = commandLine.join(" ").trim()
+        if (command != "null") { //Groovy/Gradle weirdness. Don't ask...
             //why the 'if' statement here?
-            //sometimes we use doFirst() to configure the commandLine and hence it would be empty
-            logger.lifecycle "Running:\n  " + commandLine.join(" ")
+            //sometimes we use doFirst() to configure the commandLine and hence the command line is empty (null)
+            //we don't want to print null
+            logger.lifecycle "  Running:\n    " + commandLine.join(" ")
         }
     }
 }
@@ -162,11 +170,11 @@ task releaseNeeded {
             ext.needed = true
         }
 
-        logger.lifecycle("""Release is needed: $needed
-  - skip by env variable: $skipEnvVariable
-  - skip by commit message: $skippedByCommitMessage
-  - is pull request build: $pullRequest
-  - is releasable branch: $releasableBranch""")
+        logger.lifecycle("""  Release is needed: $needed
+    - skip by env variable: $skipEnvVariable
+    - skip by commit message: $skippedByCommitMessage
+    - is pull request build: $pullRequest
+    - is releasable branch: $releasableBranch""")
     }
 }
 
