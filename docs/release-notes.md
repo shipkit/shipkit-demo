@@ -1,3 +1,16 @@
+### 0.7.0 (2017-03-15)
+
+* Authors: 1
+* Commits: 35
+  * 35: Szczepan Faber
+* Improvements: 6
+  * Fixed problem with git user in Travis CI [(#10)](https://github.com/mockito/mockito-release-tools-example/pull/10)
+  * Fixed various Travis CI configuration issues [(#9)](https://github.com/mockito/mockito-release-tools-example/pull/9)
+  * Extracted release automation to script plugin [(#8)](https://github.com/mockito/mockito-release-tools-example/pull/8)
+  * Set up release automation [(#7)](https://github.com/mockito/mockito-release-tools-example/pull/7)
+  * Example project publishes to Bintray and has version management [(#6)](https://github.com/mockito/mockito-release-tools-example/pull/6)
+  * Configured release notes repository [(#4)](https://github.com/mockito/mockito-release-tools-example/pull/4)
+
 ### 0.3.0 (2017-03-12)
 
 * Authors: 1
