@@ -24,8 +24,10 @@ task gitAddReleaseNotes(type: Exec) {
 task gitCommit(type: Exec) {
     description = "Commits staged changes using generic --author"
     mustRunAfter tasks.gitAddBumpVersion, tasks.gitAddReleaseNotes
-    commandLine = ["git", "commit", "--author", "Mockito Release Tools <mockito.release.tools@gmail.com>",
-                   "-m", commitMessage("Bumped version and updated release notes")]
+    doFirst {
+        commandLine = ["git", "commit", "--author", "$project.ext.genericGitUserName <$project.ext.genericGitUserEmail>",
+                       "-m", commitMessage("Bumped version and updated release notes")]
+    }
 }
 
 task gitTag(type: Exec) {
@@ -125,12 +127,16 @@ task checkOutBranch(type: Exec) {
 
 task configureGitUserName(type: Exec) {
     description = "Overwrites local git 'user.name' with a generic name. Intended for Travis CI."
-    commandLine = ["git", "config", "--local", "user.name", "Mockito Release Tools"]
+    doFirst {
+        commandLine = ["git", "config", "--local", "user.name", project.ext.genericGitUserName]
+    }
 }
 
 task configureGitUserEmail(type: Exec) {
     description = "Overwrites local git 'user.email' with a generic email. Intended for Travis CI."
-    commandLine = ["git", "config", "--local", "user.email", "mockito.release.tools@gmail.com"]
+    doFirst {
+        commandLine = ["git", "config", "--local", "user.email", project.ext.genericGitUserEmail]
+    }
 }
 
 tasks.withType(Exec) {
