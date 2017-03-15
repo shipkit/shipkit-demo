@@ -222,11 +222,7 @@ allprojects {
 
         bintrayUploadAll.dependsOn bintrayUpload
         bintrayUpload.doFirst {
-            it.apiKey = envVar('BINTRAY_API_KEY') //validates the presence of the env var
-
-            //Using doFirst so that we can pick up updated 'releaseDryRun' property
-            it.dryRun = rootProject.ext.has("releaseDryRun")
-
+            it.apiKey = envVar('BINTRAY_API_KEY') //validates the presence of the env var during execution phase
             logger.lifecycle "$path - publishing to Bintray (dry run: $it.dryRun)"
         }
 
@@ -238,10 +234,15 @@ allprojects {
             }
 
             publish = true
+            dryRun = rootProject.ext.has("releaseDryRun")
 
             pkg {
                 desc = project.description
                 publicDownloadNumbers = true
+
+                websiteUrl = "https://github.com/${notes.gitHubRepository}"
+                issueTrackerUrl = "https://github.com/${notes.gitHubRepository}/issues"
+                vcsUrl = "https://github.com/${notes.gitHubRepository}.git"
 
                 // optional version attributes
                 version {
