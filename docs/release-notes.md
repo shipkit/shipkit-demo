@@ -1,3 +1,11 @@
+### 0.7.1 (2017-03-15)
+
+* Authors: 1
+* Commits: 2
+  * 2: Szczepan Faber
+* Improvements: 1
+  * Improved logging and made the build safer [(#11)](https://github.com/mockito/mockito-release-tools-example/pull/11)
+
 ### 0.7.0 (2017-03-15)
 
 * Authors: 1
