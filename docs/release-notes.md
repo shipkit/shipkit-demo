@@ -1,3 +1,13 @@
+### 0.9.0 (2017-03-16)
+
+* Authors: 1
+* Commits: 12
+  * 12: [Szczepan Faber](https://github.com/szczepiq)
+* Improvements: 3
+  * Deprecated timeout().never(), in line with timeout().atMost() [(#14)](https://github.com/mockito/mockito/pull/14)
+  * Refactoring: Remove old Hg artifacts [(#13)](https://github.com/mockito/mockito/pull/13)
+  * Upgrade to gradle 1.8 [(#12)](https://github.com/mockito/mockito/pull/12)
+
 ### 0.7.1 (2017-03-15)
 
 * Authors: 1
