@@ -14,6 +14,21 @@ ext {
     genericGitUserEmail = "<mockito.release.tools@gmail.com>"
     gitHubUser = "szczepiq"
     releasableBranchRegex = "master|release/.+"  // matches 'master', 'release/2.x', 'release/3.x', etc.
+    bintray_repo = 'mockito-release-tools-example-repo'
+}
+
+allprojects {
+    plugins.withId("com.jfrog.bintray") {
+        bintray {
+            pkg {
+                user = 'szczepiq'
+                userOrg = 'mockito'
+                name = 'mockito-release-tools-example'
+                licenses = ['MIT']
+                labels = ['continuous delivery', 'release automation', 'mockito']
+            }
+        }
+    }
 }
 
 /*
@@ -39,7 +54,9 @@ mockitoReleaseTools.settings = [
     git_genericEmail: "<mockito.release.tools@gmail.com>",
     git_releasableBranchRegex: "master|release/.+",
 
-    bintray_apiKeyEnvName: "BINTRAY_API_KEY"
+    bintray_apiKeyEnvName: "BINTRAY_API_KEY",
+    bintray_repo:
+    bintray_notableRepo:
 ]
 
 */
@@ -69,17 +86,3 @@ mockitoReleaseTools.settings = [
 //    gitHubLabelMapping = ["noteworthy": "Noteworthy", "bugfix": "Bugfixes"]
 //}
 
-allprojects {
-    plugins.withId("com.jfrog.bintray") {
-        bintray {
-            pkg {
-                user = 'szczepiq'
-                repo = 'mockito-release-tools-example-repo'
-                userOrg = 'mockito'
-                name = 'mockito-release-tools-example'
-                licenses = ['MIT']
-                labels = ['continuous delivery', 'release automation', 'mockito']
-            }
-        }
-    }
-}
