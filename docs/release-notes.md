@@ -1,3 +1,11 @@
+### 0.7.2 (2017-03-16)
+
+* Authors: 1
+* Commits: 4
+  * 4: [Szczepan Faber](https://github.com/szczepiq)
+* Improvements: 1
+  * Upgrade to gradle 1.8 [(#12)](https://github.com/mockito/mockito/pull/12)
+
 ### 0.7.1 (2017-03-15)
 
 * Authors: 1
