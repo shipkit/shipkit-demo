@@ -188,24 +188,57 @@ task travisRelease {
     description = "Performs the release if release criteria are met, intended to be used by Travis CI job"
 
     dependsOn releaseNeeded
-    onlyIf { releaseNeeded.needed }
+    onlyIf {
+        releaseNeeded.didWork && releaseNeeded.needed
+        //also checking didWork so that we can "-x releaseNeeded" to force the release without criteria check
+    }
 
     doLast {
         //first, we need to prepare Travis working copy
         exec { commandLine "./gradlew", "travisReleasePrepare" }
         //then, we will do the full release with dry run to flesh out any issues
-        exec { commandLine "./gradlew", "performRelease", "releaseCleanUp", "-PreleaseDryRun" }
+        performReleaseTest()
         //finally, let's make the release!
         exec { commandLine "./gradlew", "performRelease" }
+        //perform notable release if needed
+        performNotableRelease(false)
     }
+}
+
+void performNotableRelease(boolean dryRun) {
+    def v = project.version.toString()
+    if (v.endsWith(".0") || v.endsWith(".0.0")) { //new minor or major version
+        logger.lifecycle "  It looks like we are realising a new notable version!\n" +
+                "  Performing additional upload to 'notable versions' repository and Maven Central."
+
+        exec {
+            commandLine "./gradlew", "bintrayUploadAll",
+                    "-Prelease_version=$v",
+                    "-Pbintray_repo=mockito-release-tools-example-repo-notable",
+                    "-Pbintray_mavenCentralSync"
+            if (dryRun) {
+                commandLine += "-PreleaseDryRun"
+            }
+        }
+    } else {
+        logger.lifecycle "  Version '$v' is not a notable version.\n" +
+                "  NO additional upload to 'notable versions' repository and NO sync to Maven Central."
+    }
+}
+
+void performReleaseTest() {
+    exec { commandLine "./gradlew", "performRelease", "releaseCleanUp", "-PreleaseDryRun" }
 }
 
 task testRelease {
     description = "Tests the release, intended to be used locally by engineers"
+    doLast { performReleaseTest() }
+}
 
-    doLast {
-        exec { commandLine "./gradlew", "performRelease", "releaseCleanUp", "-PreleaseDryRun" }
-    }
+task testNotableRelease {
+    description = "Tests the notable release, intended to be used locally by engineers"
+
+    doLast { performNotableRelease(true) }
 }
 
 allprojects {
@@ -223,7 +256,11 @@ allprojects {
         bintrayUploadAll.dependsOn bintrayUpload
         bintrayUpload.doFirst {
             it.apiKey = envVar('BINTRAY_API_KEY') //validates the presence of the env var during execution phase
-            logger.lifecycle "$path - publishing to Bintray (dry run: $it.dryRun)"
+            logger.lifecycle "$path - publishing to Bintray\n" +
+                    "  - dry run: $it.dryRun\n" +
+                    "  - repository: $it.repoName\n" +
+                    "  - version: $it.versionName\n" +
+                    "  - Maven Central sync: $it.syncToMavenCentral"
         }
 
         bintray {
@@ -240,6 +277,7 @@ allprojects {
                 desc = project.description
                 publicDownloadNumbers = true
 
+                repo = rootProject.ext.bintray_repo
                 websiteUrl = "https://github.com/${notes.gitHubRepository}"
                 issueTrackerUrl = "https://github.com/${notes.gitHubRepository}/issues"
                 vcsUrl = "https://github.com/${notes.gitHubRepository}.git"
