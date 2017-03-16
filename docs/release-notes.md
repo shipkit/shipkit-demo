@@ -1,3 +1,11 @@
+### 0.8.0 (2017-03-16)
+
+* Authors: 1
+* Commits: 4
+  * 4: [Szczepan Faber](https://github.com/szczepiq)
+* Improvements: 1
+  * Refactoring: Remove old Hg artifacts [(#13)](https://github.com/mockito/mockito/pull/13)
+
 ### 0.7.2 (2017-03-16)
 
 * Authors: 1
