@@ -1,5 +1,4 @@
-apply plugin: 'java'
-apply plugin: 'maven-publish'
+apply from: "$rootDir/gradle/java-cd.gradle"
 
 dependencies {
     compile project(":api")
