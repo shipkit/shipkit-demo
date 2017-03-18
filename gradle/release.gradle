@@ -85,4 +85,3 @@ mockitoReleaseTools.settings = [
 //    gitHubReadOnlyAuthToken = "e7fe8fcdd6ffed5c38498c4c79b2a68e6f6ed1bb" //read-only token
 //    gitHubLabelMapping = ["noteworthy": "Noteworthy", "bugfix": "Bugfixes"]
 //}
-

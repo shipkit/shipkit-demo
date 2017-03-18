@@ -1,0 +1,55 @@
+//TODO this script plugin makes assumptions about root project
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+project.publishing {
+    publications {
+        DefaultPublication(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+project.apply plugin: "com.jfrog.bintray"
+
+rootProject.bintrayUploadAll.dependsOn bintrayUpload
+bintrayUpload.doFirst {
+    it.apiKey = rootProject.envVar('BINTRAY_API_KEY') //validates the presence of the env var during execution phase
+    logger.lifecycle "$path - publishing to Bintray\n" +
+            "  - dry run: $it.dryRun\n" +
+            "  - repository: $it.repoName\n" +
+            "  - version: $it.versionName\n" +
+            "  - Maven Central sync: $it.syncToMavenCentral"
+}
+
+bintray {
+    afterEvaluate {
+        //we have to access publications as late as possible,
+        // otherwise stuff does not work, for example pom does not have dependencies :)
+        publications = project.publishing.publications*.name
+    }
+
+    publish = true
+    dryRun = rootProject.ext.has("releaseDryRun")
+
+    pkg {
+        desc = project.description
+        publicDownloadNumbers = true
+
+        repo = rootProject.ext.bintray_repo
+
+        //TODO get github repository from 'ext'
+        websiteUrl = "https://github.com/${rootProject.notes.gitHubRepository}"
+        issueTrackerUrl = "https://github.com/${rootProject.notes.gitHubRepository}/issues"
+        vcsUrl = "https://github.com/${rootProject.notes.gitHubRepository}.git"
+
+        // optional version attributes
+        version {
+            vcsTag = "v$project.version"
+            gpg {
+                sign = true
+            }
+        }
+    }
+}

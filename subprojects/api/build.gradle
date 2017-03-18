@@ -1,5 +1,8 @@
 apply plugin: 'java'
-apply plugin: 'maven-publish'
+apply from: "$rootDir/gradle/java-cd.gradle"
+
+//TODO, long term 'apply from' will be replaced by:
+//apply plugin: "org.mockito.mockito-release-tools.java-library"
 
 dependencies {
     testCompile 'junit:junit:4.12'

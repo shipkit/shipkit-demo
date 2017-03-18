@@ -35,7 +35,7 @@ task gitTag(type: Exec) {
     commandLine "git", "tag", "-a", "v${project.version}", "-m", commitMessage("Created new tag v${project.version}")
 }
 
-static String envVar(String name) {
+ext.envVar = { String name ->
     def envValue = System.getenv(name)
     if (!envValue) {
         throw new GradleException("Please export '$name' env variable first!")
@@ -239,57 +239,4 @@ task testNotableRelease {
     description = "Tests the notable release, intended to be used locally by engineers"
 
     doLast { performNotableRelease(true) }
-}
-
-allprojects {
-    plugins.withId("maven-publish") {
-        project.publishing {
-            publications {
-                DefaultPublication(MavenPublication) {
-                    from components.java
-                }
-            }
-        }
-
-        project.apply plugin: "com.jfrog.bintray"
-
-        bintrayUploadAll.dependsOn bintrayUpload
-        bintrayUpload.doFirst {
-            it.apiKey = envVar('BINTRAY_API_KEY') //validates the presence of the env var during execution phase
-            logger.lifecycle "$path - publishing to Bintray\n" +
-                    "  - dry run: $it.dryRun\n" +
-                    "  - repository: $it.repoName\n" +
-                    "  - version: $it.versionName\n" +
-                    "  - Maven Central sync: $it.syncToMavenCentral"
-        }
-
-        bintray {
-            afterEvaluate {
-                //we have to access publications as late as possible,
-                // otherwise stuff does not work, for example pom does not have dependencies :)
-                publications = project.publishing.publications*.name
-            }
-
-            publish = true
-            dryRun = rootProject.ext.has("releaseDryRun")
-
-            pkg {
-                desc = project.description
-                publicDownloadNumbers = true
-
-                repo = rootProject.ext.bintray_repo
-                websiteUrl = "https://github.com/${notes.gitHubRepository}"
-                issueTrackerUrl = "https://github.com/${notes.gitHubRepository}/issues"
-                vcsUrl = "https://github.com/${notes.gitHubRepository}.git"
-
-                // optional version attributes
-                version {
-                    vcsTag = "v$project.version"
-                    gpg {
-                        sign = true
-                    }
-                }
-            }
-        }
-    }
 }
