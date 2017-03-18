@@ -1,3 +1,11 @@
+### 0.9.1 (2017-03-18)
+
+* Authors: 1
+* Commits: 5
+  * 5: [Szczepan Faber](https://github.com/szczepiq)
+* Improvements: 1
+  * Verification with timout measures time more more accurately [(#15)](https://github.com/mockito/mockito/pull/15)
+
 ### 0.9.0 (2017-03-16)
 
 * Authors: 1
