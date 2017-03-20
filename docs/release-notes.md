@@ -1,3 +1,11 @@
+### 0.10.0 (2017-03-20)
+
+* Authors: 1
+* Commits: 3
+  * 3: [Szczepan Faber](https://github.com/szczepiq)
+* Improvements: 1
+  * Adds an after() method, which acts like timeout() but does not immediately return if the test passes [(#16)](https://github.com/mockito/mockito/pull/16)
+
 ### 0.9.1 (2017-03-18)
 
 * Authors: 1
