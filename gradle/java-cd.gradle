@@ -29,12 +29,18 @@ artifacts {
     archives javadocJar
 }
 
+//so that we have access to ext.configurePom() method
+apply from: "$rootDir/gradle/pom.gradle"
+
 publishing {
     publications {
         mainJar(MavenPublication) {
             from components.java
             artifact sourcesJar
             artifact javadocJar
+
+            //fine tune the pom based on "gradle/pom.gradle"
+            project.ext.configurePom(project, it)
         }
     }
 }
