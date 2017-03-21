@@ -77,9 +77,9 @@ bintray {
         repo = rootProject.ext.bintray_repo
 
         //TODO get github repository from 'ext'
-        websiteUrl = "https://github.com/${rootProject.notes.gitHubRepository}"
-        issueTrackerUrl = "https://github.com/${rootProject.notes.gitHubRepository}/issues"
-        vcsUrl = "https://github.com/${rootProject.notes.gitHubRepository}.git"
+        websiteUrl = "https://github.com/${rootProject.ext.gh_repository}"
+        issueTrackerUrl = "https://github.com/${rootProject.ext.gh_repository}/issues"
+        vcsUrl = "https://github.com/${rootProject.ext.gh_repository}.git"
 
         // optional version attributes
         version {
