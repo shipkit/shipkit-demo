@@ -208,7 +208,7 @@ task travisRelease {
 void performNotableRelease(boolean dryRun) {
     def v = project.version.toString()
     if (v.endsWith(".0") || v.endsWith(".0.0")) { //new minor or major version
-        logger.lifecycle "  It looks like we are realising a new notable version!\n" +
+        logger.lifecycle "  It looks like we are releasing a new notable version!\n" +
                 "  Performing additional upload to 'notable versions' repository and Maven Central."
 
         exec {
