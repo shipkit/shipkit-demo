@@ -11,6 +11,9 @@ ext {
 
     //TODO all properties, not only bintray_repo, need to be overridable using command line or project property
     bintray_repo = project.hasProperty('bintray_repo')? project.bintray_repo : 'mockito-release-tools-example-repo'
+
+    pom_developers = ['szczepiq:Szczepan Faber']
+    pom_contributors = ['mstachniuk:Marcin Stachniuk']
 }
 
 notes {

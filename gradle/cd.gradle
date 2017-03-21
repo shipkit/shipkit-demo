@@ -1,3 +1,10 @@
+/**
+ * Intended to be used by the root project
+ */
+
+//so that we have access to ext.configurePom() method
+apply from: "$rootDir/gradle/pom.gradle"
+
 static String commitMessage(String message) {
     def buildNo = System.env.TRAVIS_BUILD_NUMBER
     if (buildNo) {

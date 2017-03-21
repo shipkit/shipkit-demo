@@ -1,6 +1,10 @@
 //TODO this script plugin makes assumptions about root project
 // we need to remove those assumptions or fail early if assumptions are not met (for example missing cd plugin on root)
 
+/**
+ * Intended to be applied by individual Java submodule
+ */
+
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 
@@ -29,9 +33,6 @@ artifacts {
     archives javadocJar
 }
 
-//so that we have access to ext.configurePom() method
-apply from: "$rootDir/gradle/pom.gradle"
-
 publishing {
     publications {
         mainJar(MavenPublication) {
@@ -40,7 +41,7 @@ publishing {
             artifact javadocJar
 
             //fine tune the pom based on "gradle/pom.gradle"
-            project.ext.configurePom(project, it)
+            rootProject.ext.configurePom(project, it)
         }
     }
 }

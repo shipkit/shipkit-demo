@@ -1,7 +1,4 @@
 project.ext.configurePom = { Project project, MavenPublication publication ->
-    def coreDevs = ['szczepiq:Szczepan Faber']
-    def allContributors = ['mstachniuk:Marcin Stachniuk']
-
     publication.pom.withXml {
         def root = asNode()
         root.appendNode('name', project.archivesBaseName)
@@ -25,7 +22,7 @@ project.ext.configurePom = { Project project, MavenPublication publication ->
         ci.appendNode('system', 'TravisCI')
 
         def developers = root.appendNode('developers')
-        coreDevs.each {
+        rootProject.ext.pom_developers.each {
             def split = it.split(':')
             assert split.length == 2
             def d = developers.appendNode('developer')
@@ -36,7 +33,7 @@ project.ext.configurePom = { Project project, MavenPublication publication ->
         }
 
         def contributors = root.appendNode('contributors')
-        allContributors.each {
+        rootProject.ext.pom_contributors.each {
             def split = it.split(':')
             assert split.length == 2
             def c = contributors.appendNode('contributor')
