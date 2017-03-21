@@ -2,7 +2,6 @@ project.ext.configurePom = { Project project, MavenPublication publication ->
     def coreDevs = ['szczepiq:Szczepan Faber']
     def allContributors = ['mstachniuk:Marcin Stachniuk']
 
-    //TODO most of the information here can be configured by default given that we know the GitHub repo name
     publication.pom.withXml {
         def root = asNode()
         root.appendNode('name', project.archivesBaseName)
