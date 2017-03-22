@@ -1,3 +1,11 @@
+### 0.11.0 (2017-03-22)
+
+* Authors: 1
+* Commits: 5
+  * 5: [Szczepan Faber](https://github.com/szczepiq)
+* Improvements: 1
+  * Fix for problem with classloaders on Eclipse plugins tests. [(#17)](https://github.com/mockito/mockito/pull/17)
+
 ### 0.10.0 (2017-03-20)
 
 * Authors: 1
