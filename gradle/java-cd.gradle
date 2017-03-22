@@ -41,7 +41,7 @@ publishing {
             artifact javadocJar
 
             //fine tune the pom based on "gradle/pom.gradle"
-            rootProject.ext.configurePom(project, it)
+            rootProject.ext.pom_customizePom(project, it)
         }
     }
 }

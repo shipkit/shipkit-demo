@@ -3,7 +3,7 @@
  */
 
 //so that we have access to ext.configurePom() method
-apply from: "$rootDir/gradle/pom.gradle"
+apply plugin: "org.mockito.release-tools.pom"
 
 static String commitMessage(String message) {
     def buildNo = System.env.TRAVIS_BUILD_NUMBER
