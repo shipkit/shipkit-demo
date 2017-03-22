@@ -14,7 +14,9 @@ ext {
     genericGitUserEmail = "<mockito.release.tools@gmail.com>"
     gitHubUser = "szczepiq"
     releasableBranchRegex = "master|release/.+"  // matches 'master', 'release/2.x', 'release/3.x', etc.
-    bintray_repo = 'mockito-release-tools-example-repo'
+
+    //TODO all properties, not only bintray_repo, need to be overridable using command line or project property
+    bintray_repo = project.hasProperty('bintray_repo')? project.bintray_repo : 'mockito-release-tools-example-repo'
 }
 
 allprojects {
