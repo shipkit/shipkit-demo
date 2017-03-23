@@ -1,3 +1,11 @@
+### 0.11.1 (2017-03-23)
+
+* Authors: 1
+* Commits: 6
+  * 6: [Szczepan Faber](https://github.com/szczepiq)
+* Improvements: 1
+  * Enabled continuous integration with Travis CI and coverage tracking with coveralls [(#18)](https://github.com/mockito/mockito/pull/18)
+
 ### 0.11.0 (2017-03-22)
 
 * Authors: 1
