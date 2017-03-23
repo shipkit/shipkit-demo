@@ -1,3 +1,10 @@
+/**
+ * Intended to be used by the root project
+ */
+
+//so that we have access to ext.configurePom() method
+apply plugin: "org.mockito.release-tools.pom"
+
 static String commitMessage(String message) {
     def buildNo = System.env.TRAVIS_BUILD_NUMBER
     if (buildNo) {
@@ -55,7 +62,7 @@ task gitPush {
             //!!!Below command _MUST_ be quiet otherwise it exposes GitHub write token!!!
             def mustBeQuiet = "-q"
             commandLine = ["git", "push",
-                           "https://${project.ext.gitHubUser}:${envVar('GH_TOKEN')}@github.com/${notes.gitHubRepository}.git",
+                           "https://${project.ext.gitHubUser}:${envVar('GH_TOKEN')}@github.com/${project.ext.gh_repository}.git",
                            envVar('TRAVIS_BRANCH'), "v$project.version", mustBeQuiet]
             if (rootProject.ext.has('releaseDryRun')) {
                 logger.lifecycle "  Running 'git push' with '--dry-run' in quiet mode."

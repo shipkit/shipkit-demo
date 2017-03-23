@@ -1,6 +1,10 @@
 //TODO this script plugin makes assumptions about root project
 // we need to remove those assumptions or fail early if assumptions are not met (for example missing cd plugin on root)
 
+/**
+ * Intended to be applied by individual Java submodule
+ */
+
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 
@@ -29,9 +33,6 @@ artifacts {
     archives javadocJar
 }
 
-//so that we have access to ext.configurePom() method
-apply from: "$rootDir/gradle/pom.gradle"
-
 publishing {
     publications {
         mainJar(MavenPublication) {
@@ -40,7 +41,7 @@ publishing {
             artifact javadocJar
 
             //fine tune the pom based on "gradle/pom.gradle"
-            project.ext.configurePom(project, it)
+            rootProject.ext.pom_customizePom(project, it)
         }
     }
 }
@@ -77,9 +78,9 @@ bintray {
         repo = rootProject.ext.bintray_repo
 
         //TODO get github repository from 'ext'
-        websiteUrl = "https://github.com/${rootProject.notes.gitHubRepository}"
-        issueTrackerUrl = "https://github.com/${rootProject.notes.gitHubRepository}/issues"
-        vcsUrl = "https://github.com/${rootProject.notes.gitHubRepository}.git"
+        websiteUrl = "https://github.com/${rootProject.ext.gh_repository}"
+        issueTrackerUrl = "https://github.com/${rootProject.ext.gh_repository}/issues"
+        vcsUrl = "https://github.com/${rootProject.ext.gh_repository}.git"
 
         // optional version attributes
         version {
