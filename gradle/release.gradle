@@ -1,4 +1,4 @@
-apply plugin: "org.mockito.release-tools.continuous-delivery"
+apply plugin: "org.mockito.mockito-release-tools.continuous-delivery"
 
 ext {
     gh_repository = "mockito/mockito-release-tools-example"
