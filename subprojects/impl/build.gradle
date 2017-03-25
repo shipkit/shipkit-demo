@@ -1,4 +1,4 @@
-apply from: "$rootDir/gradle/java-cd.gradle"
+apply plugin: "org.mockito.mockito-release-tools.java-library"
 
 dependencies {
     compile project(":api")

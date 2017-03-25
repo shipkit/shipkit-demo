@@ -23,7 +23,8 @@ ext {
 }
 
 allprojects {
-    plugins.withId("com.jfrog.bintray") {
+    plugins.withId("org.mockito.release-tools.bintray") {
+        rootProject.bintrayUploadAll.dependsOn project.tasks.bintrayUpload
         bintray {
             pkg {
                 user = 'szczepiq'
