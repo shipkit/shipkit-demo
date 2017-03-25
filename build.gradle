@@ -5,7 +5,6 @@ buildscript {
     }
     dependencies {
         classpath "gradle.plugin.org.mockito:mockito-release-tools:0.1.6"
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
     }
 }
 
