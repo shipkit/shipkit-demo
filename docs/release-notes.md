@@ -1,3 +1,9 @@
+### 0.11.4 (2017-03-25)
+
+* Authors: 0
+* Commits: 0
+* No notable improvements. See the commits for detailed changes.
+
 ### 0.11.3 (2017-03-25)
 
 * Authors: 1
