@@ -1,3 +1,10 @@
+### 0.11.3 (2017-03-25)
+
+* Authors: 1
+* Commits: 1
+  * 1: [Szczepan Faber](https://github.com/szczepiq)
+* No notable improvements. See the commits for detailed changes.
+
 ### 0.11.2 (2017-03-25)
 
 * Authors: 1
