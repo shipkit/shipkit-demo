@@ -1,3 +1,11 @@
+### 0.11.2 (2017-03-25)
+
+* Authors: 1
+* Commits: 2
+  * 2: [Szczepan Faber](https://github.com/szczepiq)
+* Improvements: 1
+  * Refactoring: Fixes env var to TERM for readability purpose on travis log when building with gradle [(#19)](https://github.com/mockito/mockito/pull/19)
+
 ### 0.11.1 (2017-03-23)
 
 * Authors: 1
