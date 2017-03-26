@@ -13,10 +13,7 @@ ext {
     git_genericEmail = "<mockito.release.tools@gmail.com>"
     git_releasableBranchRegex = "master|release/.+"  // matches 'master', 'release/2.x', 'release/3.x', etc.
 
-    //TODO this conditional logic needs to be removed from here
-    // if 'bintray_notableRepo' not specified, we never release to notable repo
-    // if specified, we automatically configure stuff by passing internal parameter to the build
-    bintray_repo = project.hasProperty('bintray_repo')? project.bintray_repo : 'mockito-release-tools-example-repo'
+    bintray_repo = 'mockito-release-tools-example-repo'
     bintray_notableRepo = 'mockito-release-tools-example-repo-notable'
 
     pom_developers = ['szczepiq:Szczepan Faber']
@@ -25,7 +22,6 @@ ext {
 
 allprojects {
     plugins.withId("org.mockito.release-tools.bintray") {
-        rootProject.bintrayUploadAll.dependsOn project.tasks.bintrayUpload
         bintray {
             pkg {
                 user = 'szczepiq'
