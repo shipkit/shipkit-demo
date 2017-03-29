@@ -7,6 +7,7 @@ ext {
     gh_writeAuthTokenEnvName = "GH_WRITE_TOKEN"
 
     releaseNotes_file = "docs/release-notes.md"
+    releaseNotes_notableFile = "docs/notable-release-notes.md"
     releaseNotes_labelMapping = ["noteworthy": "Noteworthy", "bugfix": "Bugfixes"]
 
     git_genericUser = "Mockito Release Tools"
