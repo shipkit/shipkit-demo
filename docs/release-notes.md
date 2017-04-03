@@ -1,3 +1,14 @@
+### 0.13.5 (2017-04-03)
+
+* Authors: 1
+* Commits: 16
+  * 16: [Szczepan Faber](https://github.com/szczepiq)
+* Improvements: 4
+  * Picked up new version of tools [(#24)](https://github.com/mockito/mockito-release-tools-example/pull/24)
+  * Picked up latest release tools [(#23)](https://github.com/mockito/mockito-release-tools-example/pull/23)
+  * Notable release support [(#22)](https://github.com/mockito/mockito-release-tools-example/pull/22)
+  * Reduced the complexity [(#21)](https://github.com/mockito/mockito-release-tools-example/pull/21)
+
 ### 0.2.0 (2017-03-26)
 
 * Authors: 0
