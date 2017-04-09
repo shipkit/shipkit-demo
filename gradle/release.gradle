@@ -15,11 +15,12 @@ ext {
     git_genericEmail = "<mockito.release.tools@gmail.com>"
     git_releasableBranchRegex = "master|release/.+"  // matches 'master', 'release/2.x', 'release/3.x', etc.
 
-    bintray_repo = 'mockito-release-tools-example-repo'
-    bintray_notableRepo = 'mockito-release-tools-example-repo-notable'
+    bintray_repo = 'examples'
+    bintray_pkg = 'basic-all-versions'
+    bintray_notablePkg = 'basic-notable-versions'
 
     pom_developers = ['szczepiq:Szczepan Faber']
-    pom_contributors = ['mstachniuk:Marcin Stachniuk']
+    pom_contributors = ['mstachniuk:Marcin Stachniuk', 'wwilk:Wojtek Wilk']
 }
 
 allprojects {
@@ -27,10 +28,9 @@ allprojects {
         bintray {
             pkg {
                 user = 'szczepiq'
-                userOrg = 'mockito'
-                name = 'mockito-release-tools-example'
+                userOrg = 'shipkit'
                 licenses = ['MIT']
-                labels = ['continuous delivery', 'release automation', 'mockito']
+                labels = ['continuous delivery', 'release automation', 'mockito', 'mockito-release-tools', 'shipkit']
             }
         }
     }
