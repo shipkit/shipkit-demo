@@ -15,20 +15,19 @@ ext {
     git_genericEmail = "<mockito.release.tools@gmail.com>"
     git_releasableBranchRegex = "master|release/.+"  // matches 'master', 'release/2.x', 'release/3.x', etc.
 
-    bintray_repo = 'examples'
-    bintray_pkg = 'basic-all-versions'
-    bintray_notablePkg = 'basic-notable-versions'
-
     pom_developers = ['szczepiq:Szczepan Faber']
     pom_contributors = ['mstachniuk:Marcin Stachniuk', 'wwilk:Wojtek Wilk']
 }
 
 allprojects {
-    plugins.withId("org.mockito.release-tools.bintray") {
+    plugins.withId("org.mockito.mockito-release-tools.bintray") {
         bintray {
             pkg {
+                repo = 'examples'
                 user = 'szczepiq'
                 userOrg = 'shipkit'
+                //TODO we're making 'release_notable' project property public API here. Let's make it 'shipkit_notableRelease'.
+                name = project.ext.has('release_notable')? "basic-notable-versions" : "basic-all-versions"
                 licenses = ['MIT']
                 labels = ['continuous delivery', 'release automation', 'mockito', 'mockito-release-tools', 'shipkit']
             }
