@@ -1,3 +1,11 @@
+### 0.14.0 (2017-04-11)
+
+* Authors: 1
+* Commits: 3
+  * 3: [Szczepan Faber](https://github.com/szczepiq)
+* Improvements: 1
+  * Publishing notable versions to separate Bintray package instead of Bintray repo [(#25)](https://github.com/mockito/mockito-release-tools-example/pull/25)
+
 ### 0.13.5 (2017-04-03)
 
 * Authors: 1

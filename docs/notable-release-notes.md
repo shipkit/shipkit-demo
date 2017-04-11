@@ -1,5 +1,12 @@
 Notable release notes:
 
+### 0.14.0 - 2017-04-11
+
+Authors: [1](mockito/mockito-release-tools-example/blob/master/docs/notable-release-notes.md), commits: [39](https://github.com/mockito/mockito-release-tools-example/compare/v0.10.0...HEAD), improvements: [2](mockito/mockito-release-tools-example/blob/master/docs/notable-release-notes.md).
+
+ * Started using brand new continuous delivery plugin [(#20)](https://github.com/mockito/mockito-release-tools-example/pull/20)
+ * Moved the pom customization logic to external plugin [(#18)](https://github.com/mockito/mockito-release-tools-example/pull/18)
+
 ### 0.10.0 - 2017-03-20
 
 Authors: [1](mockito/mockito-release-tools-example/blob/master/docs/notable-release-notes.md), commits: [20](https://github.com/mockito/mockito-release-tools-example/compare/v0.7.1...v0.10.0), improvements: [3](mockito/mockito-release-tools-example/blob/master/docs/notable-release-notes.md).
