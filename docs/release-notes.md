@@ -1,3 +1,11 @@
+### 0.15.0 (2017-04-11)
+
+* Authors: 1
+* Commits: 2
+  * 2: [Szczepan Faber](https://github.com/szczepiq)
+* Improvements: 1
+  * Fixed the release [(#26)](https://github.com/mockito/mockito-release-tools-example/pull/26)
+
 ### 0.14.0 (2017-04-11)
 
 * Authors: 1
