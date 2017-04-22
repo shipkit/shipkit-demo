@@ -36,4 +36,4 @@ script:
   - ./gradlew build -s
 
 after_success:
-  - ./gradlew travisRelease -s
+  - ./gradlew assertReleaseNeeded && ./gradlew travisReleasePrepare && ./gradlew performRelease
