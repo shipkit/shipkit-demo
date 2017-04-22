@@ -14,8 +14,9 @@ releasing {
     releaseNotes.file = "docs/release-notes.md"
     releaseNotes.notableFile = "docs/notable-release-notes.md"
     releaseNotes.labelMapping = ["noteworthy": "Noteworthy", "bugfix": "Bugfixes"]
-    releaseNotes.developers = ['szczepiq:Szczepan Faber']
-    releaseNotes.contributors = ['mstachniuk:Marcin Stachniuk', 'wwilk:Wojtek Wilk']
+
+    team.developers = ['szczepiq:Szczepan Faber']
+    team.contributors = ['mstachniuk:Marcin Stachniuk', 'wwilk:Wojtek Wilk']
 }
 
 allprojects {
