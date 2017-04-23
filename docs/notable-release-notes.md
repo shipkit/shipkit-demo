@@ -2,9 +2,9 @@ Notable release notes:
 
 ### 0.15.0 - 2017-04-11
 
-Authors: [1](mockito/mockito-release-tools-example/blob/master/docs/notable-release-notes.md), commits: [2](https://github.com/mockito/mockito-release-tools-example/compare/v0.14.0...HEAD), improvements: [0](mockito/mockito-release-tools-example/blob/master/docs/notable-release-notes.md).
+Authors: [1](mockito/mockito-release-tools-example/blob/master/docs/notable-release-notes.md), commits: [2](https://github.com/mockito/mockito-release-tools-example/compare/v0.14.0...v0.15.0), improvements: [0](mockito/mockito-release-tools-example/blob/master/docs/notable-release-notes.md).
 
-No notable improvements. No pull requests were referenced from [commits](https://github.com/mockito/mockito-release-tools-example/compare/v0.14.0...HEAD).
+No notable improvements. No pull requests were referenced from [commits](https://github.com/mockito/mockito-release-tools-example/compare/v0.14.0...v0.15.0).
 
 ### 0.14.0 - 2017-04-11
 
