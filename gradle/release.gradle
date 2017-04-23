@@ -27,7 +27,7 @@ allprojects {
                 repo = 'examples'
                 user = 'szczepiq'
                 userOrg = 'shipkit'
-                //TODO we're making 'release_notable' project property public API here. Let's make it 'shipkit_notableRelease'.
+                //TODO: rootProject.releasing.notableRelease?
                 name = project.ext.has('release_notable')? "basic-notable-versions" : "basic-all-versions"
                 licenses = ['MIT']
                 labels = ['continuous delivery', 'release automation', 'mockito', 'mockito-release-tools', 'shipkit']
