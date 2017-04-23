@@ -4,8 +4,11 @@
 # Speed up build with travis caches
 cache:
   directories:
-    - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+    #TODO Sometimes Gradle caches cache-miss information in between builds.
+    #We should reach out to gradle forum about this,
+    #it might be a problem with how Gradle plugins work / Gradle plugin portal.
+    #- $HOME/.gradle/caches/
 
 language: java
 
