@@ -14,6 +14,9 @@ releasing {
 
     build.branch = System.getenv("TRAVIS_BRANCH")
 
+    def buildNo = System.getenv("TRAVIS_BUILD_NUMBER")
+    git.commitMessagePostfix = buildNo? " by CI build $buildNo [ci skip-release]" : " [ci skip-release]"
+
     releaseNotes.file = "docs/release-notes.md"
     releaseNotes.notableFile = "docs/notable-release-notes.md"
     releaseNotes.labelMapping = ["noteworthy": "Noteworthy", "bugfix": "Bugfixes"]
