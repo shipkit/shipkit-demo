@@ -1,5 +1,7 @@
 apply plugin: "org.mockito.mockito-release-tools.continuous-delivery"
 
+//TODO let's make this project use all possible configuration options
+//and create a separate example project that would rely on default (minimum example)
 releasing {
     gitHub.repository = "mockito/mockito-release-tools-example"
     gitHub.writeAuthUser = "szczepiq"
@@ -9,7 +11,8 @@ releasing {
     git.user = "Mockito Release Tools"
     git.email = "<mockito.release.tools@gmail.com>"
     git.releasableBranchRegex = "master|release/.+" // matches 'master', 'release/2.x', 'release/3.x', etc.
-    git.branch = System.getenv("TRAVIS_BRANCH")
+
+    build.branch = System.getenv("TRAVIS_BRANCH")
 
     def buildNo = System.getenv("TRAVIS_BUILD_NUMBER")
     git.commitMessagePostfix = buildNo? " by CI build $buildNo [ci skip-release]" : " [ci skip-release]"
@@ -30,8 +33,7 @@ allprojects {
                 repo = 'examples'
                 user = 'szczepiq'
                 userOrg = 'shipkit'
-                //TODO: rootProject.releasing.notableRelease?
-                name = project.ext.has('release_notable')? "basic-notable-versions" : "basic-all-versions"
+                name = rootProject.releasing.notableRelease? "basic-notable-versions" : "basic-all-versions"
                 licenses = ['MIT']
                 labels = ['continuous delivery', 'release automation', 'mockito', 'mockito-release-tools', 'shipkit']
             }
