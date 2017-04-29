@@ -4,7 +4,7 @@ buildscript {
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        def toolsVer = "0.7.1"
+        def toolsVer = "0.8.0"
         classpath "gradle.plugin.org.mockito:mockito-release-tools:$toolsVer"
         println "  Using version '$toolsVer' of Mockito Release Tools"
     }
