@@ -1,10 +1,3 @@
-**0.15.3** - [11 commits](https://github.com/mockito/mockito-release-tools-example/compare/v0.15.2...v0.15.3) by 4 authors - *2017-05-07* - published to [examples/basic-all-versions](https://bintray.com/shipkit/examples/basic-all-versions)
-:cocktail: Commits: Szczepan Faber (5), Wojtek Wilk (3), Marcin Stachniuk (2), epeee (1):cocktail: Change mockito-release-tools for easier bump by e2e tests [(#33)](https://github.com/mockito/mockito-release-tools-example/pull/33)
-:cocktail: Bumped release tools to 0.8.4 - concise release notes [(#32)](https://github.com/mockito/mockito-release-tools-example/pull/32)
-:cocktail: Bumped version of tools [(#30)](https://github.com/mockito/mockito-release-tools-example/pull/30)
-:cocktail: Picked up new version of tools [(#29)](https://github.com/mockito/mockito-release-tools-example/pull/29)
-:cocktail: make use of mockito-release-tools v0.7.5 and configure commit message [(#28)](https://github.com/mockito/mockito-release-tools-example/pull/28)
-
 ### 0.15.2 (2017-04-29)
 
 * Authors: 0
