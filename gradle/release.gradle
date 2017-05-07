@@ -12,8 +12,6 @@ releasing {
     git.email = "<mockito.release.tools@gmail.com>"
     git.releasableBranchRegex = "master|release/.+" // matches 'master', 'release/2.x', 'release/3.x', etc.
 
-    build.branch = System.getenv("TRAVIS_BRANCH")
-
     def buildNo = System.getenv("TRAVIS_BUILD_NUMBER")
     git.commitMessagePostfix = buildNo? " by CI build $buildNo [ci skip-release]" : " [ci skip-release]"
 
