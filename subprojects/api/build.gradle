@@ -1,4 +1,5 @@
 apply plugin: "org.mockito.mockito-release-tools.java-library"
+apply plugin: "org.mockito.mockito-release-tools.publications-comparator"
 
 dependencies {
     testCompile 'junit:junit:4.12'
