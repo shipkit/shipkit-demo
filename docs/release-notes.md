@@ -1,3 +1,12 @@
+**0.15.3** - [20 commits](https://github.com/mockito/mockito-release-tools-example/compare/v0.15.2...v0.15.3) by Mockito Release Tools - *2017-05-25* - published to [examples/basic](https://bintray.com/shipkit/examples/basic)
+ - Bumped version of tools [(#37)](https://github.com/mockito/mockito-release-tools-example/pull/37)
+ - Bump release tools version to 0.8.32 [(#35)](https://github.com/mockito/mockito-release-tools-example/pull/35)
+ - Change mockito-release-tools for easier bump by e2e tests [(#33)](https://github.com/mockito/mockito-release-tools-example/pull/33)
+ - Bumped release tools to 0.8.4 - concise release notes [(#32)](https://github.com/mockito/mockito-release-tools-example/pull/32)
+ - Bumped version of tools [(#30)](https://github.com/mockito/mockito-release-tools-example/pull/30)
+ - Picked up new version of tools [(#29)](https://github.com/mockito/mockito-release-tools-example/pull/29)
+ - make use of mockito-release-tools v0.7.5 and configure commit message [(#28)](https://github.com/mockito/mockito-release-tools-example/pull/28)
+
 ### 0.15.2 (2017-04-29)
 
 * Authors: 0
