@@ -1,5 +1,5 @@
-apply plugin: "org.mockito.mockito-release-tools.java-library"
-apply plugin: "org.mockito.mockito-release-tools.publications-comparator"
+apply plugin: "org.shipkit.java-library"
+apply plugin: "org.shipkit.publications-comparator"
 
 dependencies {
     compile project(":api")

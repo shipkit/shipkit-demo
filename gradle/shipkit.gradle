@@ -1,8 +1,8 @@
-apply plugin: "org.mockito.mockito-release-tools.continuous-delivery"
+apply plugin: "org.shipkit.continuous-delivery"
 
 //TODO let's make this project use all possible configuration options
 //and create a separate example project that would rely on default (minimum example)
-releasing {
+shipkit {
     gitHub.repository = "mockito/mockito-release-tools-example"
     gitHub.readOnlyAuthToken = "e7fe8fcdd6ffed5c38498c4c79b2a68e6f6ed1bb"
 
@@ -18,7 +18,7 @@ releasing {
 }
 
 allprojects {
-    plugins.withId("org.mockito.mockito-release-tools.bintray") {
+    plugins.withId("org.shipkit.bintray") {
         bintray {
             pkg {
                 repo = 'examples'
