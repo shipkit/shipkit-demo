@@ -13,6 +13,7 @@ releasing {
     git.user = "Mockito Release Tools"
     git.email = "<mockito.release.tools@gmail.com>"
     releaseNotes.file = "docs/release-notes.md"
+    releaseNotes.ignoreCommitsContaining = ["[ci skip]"]
 
     team.developers = ['szczepiq:Szczepan Faber', 'mstachniuk:Marcin Stachniuk', 'wwilk:Wojtek Wilk']
 }
