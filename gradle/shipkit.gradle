@@ -1,5 +1,3 @@
-apply plugin: "org.shipkit.continuous-delivery"
-
 //TODO let's make this project use all possible configuration options
 //and create a separate example project that would rely on default (minimum example)
 shipkit {

@@ -4,7 +4,7 @@ buildscript {
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath "gradle.plugin.org.mockito:mockito-release-tools:0.8.56"
+        classpath "gradle.plugin.org.mockito:mockito-release-tools:0.8.60"
     }
 }
 
@@ -17,5 +17,6 @@ allprojects {
     group = "org.mockito.release-tools-example"
 }
 
+apply plugin: "org.shipkit.continuous-delivery"
+
 apply from: "gradle/ide.gradle"
-apply from: "gradle/release.gradle"
