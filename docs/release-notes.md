@@ -1,3 +1,5 @@
+**0.15.8 (2017-06-02)** - no code changes (no commits) - published to [![Bintray](https://img.shields.io/badge/Bintray-0.15.8-green.svg)](https://bintray.com/shipkit/examples/basic/0.15.8)
+
 **0.15.7 (2017-06-01)** - [26 commits](https://github.com/mockito/mockito-release-tools-example/compare/v0.15.2...v0.15.7) by 6 authors - published to [![Bintray](https://img.shields.io/badge/Bintray-0.15.7-green.svg)](https://bintray.com/shipkit/examples/basic/0.15.7)
  - Commits: [Marcin Stachniuk](http://github.com/mstachniuk) (7), Mockito Release Tools (7), [Szczepan Faber](http://github.com/szczepiq) (7), [Wojtek Wilk](http://github.com/wwilk) (3), epeee (1), mkuster (1)
  - Gradle extension name changed from 'releasing' to 'shipkit' [(#42)](https://github.com/mockito/mockito-release-tools-example/pull/42)
