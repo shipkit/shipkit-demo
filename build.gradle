@@ -17,6 +17,6 @@ allprojects {
     group = "org.mockito.release-tools-example"
 }
 
-apply plugin: "org.shipkit.continuous-delivery"
+apply plugin: "org.shipkit.java"
 
 apply from: "gradle/ide.gradle"
