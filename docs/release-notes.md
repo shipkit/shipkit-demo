@@ -1,3 +1,5 @@
+**0.15.10 (2017-06-02)** - no code changes (no commits) - published to [![Bintray](https://img.shields.io/badge/Bintray-0.15.10-green.svg)](https://bintray.com/shipkit/examples/basic/0.15.10)
+
 **0.15.9 (2017-06-02)** - no code changes (no commits) - published to [![Bintray](https://img.shields.io/badge/Bintray-0.15.9-green.svg)](https://bintray.com/shipkit/examples/basic/0.15.9)
 
 **0.15.8 (2017-06-02)** - no code changes (no commits) - published to [![Bintray](https://img.shields.io/badge/Bintray-0.15.8-green.svg)](https://bintray.com/shipkit/examples/basic/0.15.8)
