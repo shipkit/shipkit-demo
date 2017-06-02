@@ -1,3 +1,5 @@
+**0.15.9 (2017-06-02)** - no code changes (no commits) - published to [![Bintray](https://img.shields.io/badge/Bintray-0.15.9-green.svg)](https://bintray.com/shipkit/examples/basic/0.15.9)
+
 **0.15.8 (2017-06-02)** - no code changes (no commits) - published to [![Bintray](https://img.shields.io/badge/Bintray-0.15.8-green.svg)](https://bintray.com/shipkit/examples/basic/0.15.8)
 
 **0.15.7 (2017-06-01)** - [26 commits](https://github.com/mockito/mockito-release-tools-example/compare/v0.15.2...v0.15.7) by 6 authors - published to [![Bintray](https://img.shields.io/badge/Bintray-0.15.7-green.svg)](https://bintray.com/shipkit/examples/basic/0.15.7)
