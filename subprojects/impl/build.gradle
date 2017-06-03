@@ -1,4 +1,3 @@
-apply plugin: "org.shipkit.java-library"
 apply plugin: "org.shipkit.publications-comparator"
 
 dependencies {
