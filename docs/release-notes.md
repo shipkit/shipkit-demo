@@ -1,3 +1,17 @@
+**0.15.11 (2017-06-06)** - [32 commits](https://github.com/mockito/mockito-release-tools-example/compare/v0.15.2...v0.15.11) by 6 authors - published to [![Bintray](https://img.shields.io/badge/Bintray-0.15.11-green.svg)](https://bintray.com/shipkit/examples/basic/0.15.11)
+ - Commits: [Marcin Stachniuk](http://github.com/mstachniuk) (9), Mockito Release Tools (7), [Szczepan Faber](http://github.com/szczepiq) (7), [Erhard Pointl](https://github.com/epeee) (4), [Wojtek Wilk](http://github.com/wwilk) (4), mkuster (1)
+ - Downgrade previous version to 0.15.2 [(#50)](https://github.com/mockito/mockito-release-tools-example/pull/50)
+ - Renamed MockitoReleaseTools dependency to Shipkit [(#49)](https://github.com/mockito/mockito-release-tools-example/pull/49)
+ - Clean up shipkit Gradle plugin names [(#44)](https://github.com/mockito/mockito-release-tools-example/pull/44)
+ - Gradle extension name changed from 'releasing' to 'shipkit' [(#42)](https://github.com/mockito/mockito-release-tools-example/pull/42)
+ - Bumped version of tools [(#37)](https://github.com/mockito/mockito-release-tools-example/pull/37)
+ - Bump release tools version to 0.8.32 [(#35)](https://github.com/mockito/mockito-release-tools-example/pull/35)
+ - Change mockito-release-tools for easier bump by e2e tests [(#33)](https://github.com/mockito/mockito-release-tools-example/pull/33)
+ - Bumped release tools to 0.8.4 - concise release notes [(#32)](https://github.com/mockito/mockito-release-tools-example/pull/32)
+ - Bumped version of tools [(#30)](https://github.com/mockito/mockito-release-tools-example/pull/30)
+ - Picked up new version of tools [(#29)](https://github.com/mockito/mockito-release-tools-example/pull/29)
+ - make use of mockito-release-tools v0.7.5 and configure commit message [(#28)](https://github.com/mockito/mockito-release-tools-example/pull/28)
+
 **0.15.10 (2017-06-02)** - no code changes (no commits) - published to [![Bintray](https://img.shields.io/badge/Bintray-0.15.10-green.svg)](https://bintray.com/shipkit/examples/basic/0.15.10)
 
 **0.15.9 (2017-06-02)** - no code changes (no commits) - published to [![Bintray](https://img.shields.io/badge/Bintray-0.15.9-green.svg)](https://bintray.com/shipkit/examples/basic/0.15.9)
