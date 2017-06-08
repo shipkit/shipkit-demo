@@ -1,3 +1,8 @@
+# Shipkit example
+
+[![Build Status](https://travis-ci.org/mockito/shipkit-example.svg?branch=master)](https://travis-ci.org/mockito/shipkit-example)
+[![Download](https://api.bintray.com/packages/shipkit/examples/basic/images/download.svg)](https://bintray.com/shipkit/examples/basic/_latestVersion)
+
 # Imagine
 
 Imagine the world where you call pull in a new version of some Open Source library and not worry if it breaks compatibility.
