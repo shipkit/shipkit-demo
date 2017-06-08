@@ -8,7 +8,7 @@ shipkit {
     gitHub.writeAuthUser = "shipkit"
 
     //TODO default below 3 settings inside the tools
-    git.user = "Mockito Release Tools"
+    git.user = "Shipkit"
     git.email = "<mockito.release.tools@gmail.com>"
     releaseNotes.file = "docs/release-notes.md"
 
