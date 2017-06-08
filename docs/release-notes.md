@@ -1,3 +1,5 @@
+**0.16.2 (2017-06-08)** - no code changes (no commits) - published to [![Bintray](https://img.shields.io/badge/Bintray-0.16.2-green.svg)](https://bintray.com/shipkit/examples/basic/0.16.2)
+
 **0.16.1 (2017-06-08)** - [36 commits](https://github.com/mockito/shipkit-example/compare/v0.15.2...v0.16.1) by 6 authors - published to [![Bintray](https://img.shields.io/badge/Bintray-0.16.1-green.svg)](https://bintray.com/shipkit/examples/basic/0.16.1)
  - Commits: [Marcin Stachniuk](http://github.com/mstachniuk) (9), Mockito Release Tools (8), [Szczepan Faber](http://github.com/szczepiq) (7), [Wojtek Wilk](http://github.com/wwilk) (5), [Erhard Pointl](https://github.com/epeee) (4), [mkuster](https://github.com/NagRock) (3)
  - Continuation of renaming from mockito-release-tools into shipkit [(#52)](https://github.com/mockito/shipkit-example/pull/52)
