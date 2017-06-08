@@ -1,7 +1,7 @@
 //TODO let's make this project use all possible configuration options
 //and create a separate example project that would rely on default (minimum example)
 shipkit {
-    gitHub.repository = "mockito/mockito-release-tools-example"
+    gitHub.repository = "mockito/shipkit-example"
     gitHub.readOnlyAuthToken = "e7fe8fcdd6ffed5c38498c4c79b2a68e6f6ed1bb"
 
     //TODO find out if we really need to provide write auth user given taht we use the token
@@ -25,7 +25,7 @@ allprojects {
                 //TODO let's default the package name to the org
                 name = "basic"
                 licenses = ['MIT']
-                labels = ['continuous delivery', 'release automation', 'mockito', 'mockito-release-tools', 'shipkit']
+                labels = ['continuous delivery', 'release automation', 'mockito', 'shipkit']
             }
         }
     }
