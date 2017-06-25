@@ -8,9 +8,6 @@ buildscript {
     }
 }
 
-//Prints currently used version of tools, useful for local development so that we work on the right version of tools
-println "  Using " + buildscript.configurations.classpath*.name.find { it.contains 'mockito-release-tools' }
-
 allprojects {
 
     repositories {
