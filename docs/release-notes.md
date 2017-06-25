@@ -1,3 +1,8 @@
+**0.16.4 (2017-06-25)** - [10 commits](https://github.com/mockito/shipkit-example/compare/v0.16.3...v0.16.4) by 4 authors - published to [![Bintray](https://img.shields.io/badge/Bintray-0.16.4-green.svg)](https://bintray.com/shipkit/examples/basic/0.16.4)
+ - Commits: [Maciej Kuster](https://github.com/NagRock) (4), Mockito Release Tools (3), [Erhard Pointl](https://github.com/epeee) (2), [Szczepan Faber](http://github.com/szczepiq) (1)
+ - make use of latest shipkit version (v0.8.90) [(#56)](https://github.com/mockito/shipkit-example/pull/56)
+ - added default for releaseNotes.ignoreCommitsContaining [(#43)](https://github.com/mockito/shipkit-example/pull/43)
+
 **0.16.3 (2017-06-08)** - no code changes (no commits) - published to [![Bintray](https://img.shields.io/badge/Bintray-0.16.3-green.svg)](https://bintray.com/shipkit/examples/basic/0.16.3)
 
 **0.16.2 (2017-06-08)** - no code changes (no commits) - published to [![Bintray](https://img.shields.io/badge/Bintray-0.16.2-green.svg)](https://bintray.com/shipkit/examples/basic/0.16.2)
