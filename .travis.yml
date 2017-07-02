@@ -39,4 +39,4 @@ script:
   - ./gradlew build -s
 
 after_success:
-  - ./gradlew assertReleaseNeeded && ./gradlew ciReleasePrepare && ./gradlew performRelease -Pshipkit.dryRun=false
+  - ./gradlew ciPerformRelease
