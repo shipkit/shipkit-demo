@@ -1,4 +1,4 @@
-apply plugin: "org.shipkit.publications-comparator"
+apply plugin: "org.shipkit.compare-publications"
 
 dependencies {
     compile project(":api")
