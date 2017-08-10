@@ -32,9 +32,9 @@ allprojects {
     }
 }
 
-apply plugin: 'org.shipkit.version-upgrade-consumer'
+apply plugin: 'org.shipkit.upgrade-dependency'
 
-versionUpgrade{
+upgradeDependency{
     baseBranch = "master"
     buildFile = file("build.gradle")
 }
