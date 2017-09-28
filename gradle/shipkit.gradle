@@ -8,7 +8,7 @@ shipkit {
 }
 
 allprojects {
-    plugins.withId("org.shipkit.bintray") {
+    plugins.withId("com.jfrog.bintray") {
         bintray {
             pkg {
                 repo = 'examples'
