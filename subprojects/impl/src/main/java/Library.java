@@ -5,6 +5,6 @@ import org.mockito.releasetools.example.SomeApi;
  */
 public class Library implements SomeApi {
     public boolean someLibraryMethod() {
-        return true;
+        return 1 == 1;
     }
 }
