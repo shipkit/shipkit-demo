@@ -20,6 +20,20 @@ allprojects {
             }
         }
     }
+
+    plugins.withId("org.shipkit.java-publish") {
+        publishing.publications.javaLibrary.pom.withXml {
+            //refer to Groovy xml Node reference for more info how to manipulate xml
+            asNode().licenses.replaceNode {
+                licenses {
+                    license {
+                        name "Eclipse Public License v2.0"
+                        url "http://www.eclipse.org/legal/epl-v20.html"
+                    }
+                }
+            }
+        }
+    }
 }
 
 apply plugin: 'org.shipkit.upgrade-dependency'
