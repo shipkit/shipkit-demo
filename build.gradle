@@ -17,6 +17,7 @@ allprojects {
     group = "org.mockito.shipkit-example"
 }
 
+// enable Shipkit Java plugin. All Shipkit configuration will be stored in gradle/shipkit.gradle file
 apply plugin: "org.shipkit.java"
 
 apply from: "gradle/ide.gradle"
