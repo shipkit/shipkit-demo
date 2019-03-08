@@ -83,6 +83,9 @@ shipkit {
     // It should be VCS name (e.g. 'Szczepan Faber', 'shipkit-org', 'Marcin Stachniuk').
     // Ignored contributors takes precedence over contributors configuration.
 //    team.ignoredContributors = []
+    
+    javadoc.repository = "mstachniuk/shipkit-example-javadoc"
+    
 }
 
 allprojects {
