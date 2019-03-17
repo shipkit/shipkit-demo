@@ -83,6 +83,32 @@ shipkit {
     // It should be VCS name (e.g. 'Szczepan Faber', 'shipkit-org', 'Marcin Stachniuk').
     // Ignored contributors takes precedence over contributors configuration.
 //    team.ignoredContributors = []
+
+    // OPTIONAL GitHub repository (owner/repo) where Javadocs are shipped.
+    // To enable shipping Javadoc you need to apply Javadoc plugin first:
+    // apply plugin: "org.shipkit.javadoc"
+    // The default value is gitHub.repository + "-javadoc", so in this project case:
+    // https://github.com/mockito/shipkit-example-javadoc
+//    javadoc.repository = "mstachniuk/shipkit-example-javadoc"
+
+    // OPTIONAL GitHub Javadoc repository branch name. The branch needs to exist.
+    // By default it's using the branch set as main in GitHub repo, usually master.
+    // To enable shipping Javadoc you need to apply Javadoc plugin first:
+    // apply plugin: "org.shipkit.javadoc"
+//    javadoc.repositoryBranch = ""
+
+    // OPTIONAL GitHub Javadoc repository directory where put javadoc files. By default it's project root directory.
+    // To enable shipping Javadoc you need to apply Javadoc plugin first:
+    // apply plugin: "org.shipkit.javadoc"
+//    javadoc.repositoryDirectory = ""
+
+    // OPTIONAL Commit message used to commit Javadocs. Default: "Update current and ${version} Javadocs. [ci skip]"
+    // You can override this message and ${version} will be replaced by currently build version.
+    // You don't need to specify "[ci skip]" in your message - it will be added automatically.
+    // To enable shipping Javadoc you need to apply Javadoc plugin first:
+    // apply plugin: "org.shipkit.javadoc"
+//    javadoc.commitMessage = ""
+
 }
 
 allprojects {
