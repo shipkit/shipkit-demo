@@ -7,6 +7,7 @@ public class Library implements SomeApi {
 
     /**
      * Always return true
+     * @return true
      */
     public boolean someLibraryMethod() {
         return 1 == 1;
