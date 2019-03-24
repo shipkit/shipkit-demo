@@ -19,7 +19,7 @@ allprojects {
 
 // enable Shipkit Java plugin. All Shipkit configuration will be stored in gradle/shipkit.gradle file
 apply plugin: "org.shipkit.java"
-// enable Shipkit Javadoc plugin. Now Javadoc can be shipped to the Git repository
+// enable Shipkit Javadoc plugin. Now Javadoc can be shipped to the GitHub repository
 apply plugin: "org.shipkit.javadoc"
 
 apply from: "gradle/ide.gradle"
