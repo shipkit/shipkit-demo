@@ -10,6 +10,6 @@ public class Library implements SomeApi {
      * @return true
      */
     public boolean someLibraryMethod() {
-        return 1 == 1;
+        return true;
     }
 }
