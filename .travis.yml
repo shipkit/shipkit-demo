@@ -13,7 +13,7 @@ cache:
 language: java
 
 jdk:
-  - oraclejdk8
+  - openjdk8
 
 #don't build tags
 branches:
