@@ -1,0 +1,43 @@
+apply plugin: "org.shipkit.shipkit-auto-version"
+apply plugin: "org.shipkit.shipkit-changelog"
+apply plugin: "org.shipkit.shipkit-gh-release"
+
+def tagName = "v$version"
+
+task createTag {
+    description = "Creates a '$tagName' annotated tag"
+    doLast {
+        logger.lifecycle "Creating tag $tagName"
+        exec { commandLine "git", "config", "user.email", "shipkit.org@gmail.com" }
+        exec { commandLine "git", "config", "user.name", "shipkit" }
+        exec { commandLine "git", "tag", "-a", "-m", "Release $tagName", tagName }
+        logger.lifecycle "Created tag $tagName"
+    }
+}
+
+task pushTag(type: Exec) {
+    mustRunAfter createTag
+    description = "Pushes the tag. Hides secret key from git push output."
+    doFirst { logger.lifecycle "Pushing tag $tagName" }
+    commandLine "./gradle/push-tag.sh", tagName
+    doLast { logger.lifecycle "Pushed tag $tagName" }
+}
+
+tasks.named("generateChangelog") {
+    previousRevision = "v" + project.ext.'shipkit-auto-version.previous-version'
+    readOnlyToken = "a0a4c0f41c200f7c653323014d6a72a127764e17"
+    repository = "shipkit/shipkit-changelog"
+}
+
+tasks.named("githubRelease") {
+    dependsOn tasks.named("generateChangelog")
+    repository = "shipkit/shipkit-changelog"
+    changelog = tasks.named("generateChangelog").get().outputFile
+    writeToken = System.getenv("GH_WRITE_TOKEN")
+}
+
+allprojects { p ->
+    plugins.withId("java") {
+        p.apply from: "$rootDir/gradle/java-publication.gradle"
+    }
+}

@@ -1,15 +1,6 @@
 # More details on how to configure the Travis build
 # https://docs.travis-ci.com/user/customizing-the-build/
 
-# Speed up build with travis caches
-cache:
-  directories:
-    - $HOME/.gradle/wrapper/
-    #TODO Sometimes Gradle caches cache-miss information in between builds.
-    #We should reach out to gradle forum about this,
-    #it might be a problem with how Gradle plugins work / Gradle plugin portal.
-    #- $HOME/.gradle/caches/
-
 language: java
 
 jdk:
@@ -25,4 +16,4 @@ install:
  - true
 
 script:
-  - ./gradlew build -s && ./gradlew ciPerformRelease -s
+  - ./gradlew build --scan && ./gradlew bintrayUpload --scan -PdryRun # && ./gradlew createTag pushTag bintrayUpload --scan

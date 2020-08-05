@@ -139,10 +139,3 @@ allprojects {
         }
     }
 }
-
-apply plugin: 'org.shipkit.upgrade-dependency'
-
-upgradeDependency {
-    baseBranch = "master"
-    buildFile = file("build.gradle")
-}
