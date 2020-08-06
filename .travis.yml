@@ -16,6 +16,6 @@ install: skip
 
 script:
   - >
-    ./gradlew build --scan
-    && ./gradlew bintrayUpload --scan -PdryRun
-    && 'if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_BRANCH" = "master" ]; then ./gradlew githubRelease bintrayUpload --scan; fi'
+    ./gradlew build bintrayUpload --scan -PbintrayDryRun
+    && if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_BRANCH" = "master" ];
+      then ./gradlew githubRelease bintrayUpload --scan; fi
