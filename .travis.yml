@@ -11,9 +11,12 @@ branches:
   except:
   - /^v\d/
 
-#Below skips the installation step completely (https://docs.travis-ci.com/user/customizing-the-build/#Skipping-the-Installation-Step)
-install:
- - true
+#Below skips the installation step completely
+install: skip
 
 script:
-  - ./gradlew build --scan && ./gradlew bintrayUpload --scan -PdryRun # && ./gradlew createTag pushTag bintrayUpload --scan
+  - ./gradlew build --scan && ./gradlew bintrayUpload --scan -PdryRun
+
+after_success:
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./gradlew createTag pushTag bintrayUpload --scan; fi'
+  if: branch = master
