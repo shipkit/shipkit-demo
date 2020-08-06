@@ -17,6 +17,5 @@ install: skip
 script:
   - ./gradlew build --scan && ./gradlew bintrayUpload --scan -PdryRun
 
-#after_success:
-#  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./gradlew createTag pushTag bintrayUpload --scan; fi'
-#  if: branch = master
+after_success:
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_BRANCH" = "master" ]; then ./gradlew createTag pushTag bintrayUpload --scan; fi'
