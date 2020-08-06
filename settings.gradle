@@ -9,3 +9,10 @@ rootProject.children.each { project ->
     assert project.projectDir.isDirectory()
     assert project.buildFile.isFile()
 }
+
+gradleEnterprise {
+    buildScan {
+        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+        termsOfServiceAgree = 'yes'
+    }
+}
