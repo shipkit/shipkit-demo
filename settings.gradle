@@ -2,17 +2,10 @@ plugins {
     id "com.gradle.enterprise" version "3.4"
 }
 
+rootProject.name = 'shipkit-demo'
+
 include "api"
 include "impl"
-
-rootProject.name = 'example-release'
-
-rootProject.children.each { project ->
-    String projectDirName = "subprojects/$project.name"
-    project.projectDir = new File(settingsDir, projectDirName)
-    assert project.projectDir.isDirectory()
-    assert project.buildFile.isFile()
-}
 
 gradleEnterprise {
     buildScan {
