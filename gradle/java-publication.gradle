@@ -51,7 +51,7 @@ apply plugin: "com.jfrog.bintray"
 bintray {
     user = 'szczepiq'
     key = System.getenv('BINTRAY_API_KEY')
-//    publish = true
+    publish = true
     dryRun = project.hasProperty("dryRun")
     publications = ['maven']
 
