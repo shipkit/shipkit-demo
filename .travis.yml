@@ -15,7 +15,8 @@ branches:
 install: skip
 
 script:
-  - ./gradlew build --scan && ./gradlew bintrayUpload --scan -PdryRun
-
-after_success:
-  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_BRANCH" = "master" ];then ./gradlew githubRelease bintrayUpload --scan; fi'
+  - >
+    ./gradlew build --scan
+    && ./gradlew bintrayUpload --scan -PdryRun
+    && 'if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_BRANCH" = "master" ];
+      then ./gradlew githubRelease bintrayUpload --scan; fi'
