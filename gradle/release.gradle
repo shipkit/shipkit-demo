@@ -1,3 +1,4 @@
+//Plugin jars are added to the buildscript classpath in the root build.gradle file
 apply plugin: "org.shipkit.shipkit-auto-version"
 apply plugin: "org.shipkit.shipkit-changelog"
 apply plugin: "org.shipkit.shipkit-gh-release"

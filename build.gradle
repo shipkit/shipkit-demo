@@ -19,6 +19,6 @@ allprojects {
         jcenter()
     }
 
-    group = "org.mockito.shipkit-example"
+    group = "org.mockito.shipkit-demo"
 }
 

@@ -46,6 +46,7 @@ publishing {
 }
 
 //Bintray Gradle plugin configuration (https://github.com/bintray/gradle-bintray-plugin)
+//Plugin jars are added to the buildscript classpath in the root build.gradle file
 apply plugin: "com.jfrog.bintray"
 
 bintray {
@@ -58,7 +59,7 @@ bintray {
     pkg {
         repo = 'examples'
         userOrg = 'shipkit'
-        name = "basic"
+        name = "shipkit-demo"
         licenses = ['MIT']
         labels = ['continuous delivery', 'release automation', 'mockito', 'shipkit']
         vcsUrl = "https://github.com/shipkit/shipkit-demo.git"
