@@ -1,16 +1,32 @@
-# Shipkit example
+# Shipkit demo
 
-[![Build Status](https://travis-ci.org/mockito/shipkit-example.svg?branch=master)](https://travis-ci.org/mockito/shipkit-example)
-[![Download](https://api.bintray.com/packages/shipkit/examples/basic/images/download.svg)](https://bintray.com/shipkit/examples/basic/_latestVersion)
+[![Build Status](https://travis-ci.org/shipkit/shipkit-demo.svg?branch=master)](https://travis-ci.org/shipkit/shipkit-demo)
+[![Download](https://api.bintray.com/packages/shipkit/examples/shipkit-demo/images/download.svg)](https://bintray.com/shipkit/examples/shipkit-demo/_latestVersion)
 
-# Imagine
+This is a demo project that showcases release automation with Shipkit plugins.
+Use it as a reference to automate your project!
 
-Imagine the world where you call pull in a new version of some Open Source library and not worry if it breaks compatibility.
-Imagine that you can submit a pull request to some project, have it reviewed timely, and have the new version with your fix available to you in minutes after your PR is merged.
-Imagine that for any dependency you consider upgrading, you can view its neatly and consistently maintained release notes.
-Imagine that you can set up practical Continuous Delivery automation in your project in minutes, by using a well behaving and documented Gradle plugin.
-Imagine that you can focus on code and features while the release management, versioning, publishing, release notes generation is taken care for you automagically.
+## Overview
 
-This is the goal of [Shipkit](https://github.com/mockito/shipkit) project. The project started in November 2016 and is currently in progress.
+This project represents a development model where every change on the main development branch will produce a new release via the CI system.
+The release is a Maven publication (jars, poms) that get uploaded to a free public repository (Bintray) via a free CI system (Travis).
+We chose Bintray and Travis CI as examples - you can use any system of your choice (for example: Bintray + GH Actions, Maven Central + Circle CI).
+The Gradle plugins we chose for this use case represent the minimum set of Gradle plugins to conveniently automate the releases.
 
-"Shipkit Example" is a practical example use of [Shipkit](https://github.com/mockito/shipkit).
+ - the Maven publication (jars, poms) is configured using Gradle's built-in [maven-publish](https://docs.gradle.org/current/userguide/publishing_maven.html) plugin.
+ - the publication to a public repository (Bintray) is configured using JFrog's [bintray](https://github.com/bintray/gradle-bintray-plugin) plugin.
+    If you want to publish to a different repository than Bintray, you would use a different plugin for that.
+    For example, if you want to publish to Sonatype Nexus for Open Source, you can use [maven-publish](https://docs.gradle.org/current/userguide/publishing_maven.html) plugin.
+ - the next version for the release is deducted automatically by [shipkit-auto-version](https://github.com/shipkit/shipkit-auto-version) plugin.
+    This plugin is minimalistic, written for sole purpose of automated deduction of version before the release. 
+ - the GitHub release is performed via GH REST API by [shipkit-auto-version](https://github.com/shipkit/shipkit-changelog) plugin.
+    This plugin is minimalistic, written for sole purpose of generating changelog (release notes) and performing a GH release. 
+
+## Implementation reference
+
+- Java publication (javadoc/sources jar, pom customization, Bintray plugin): [gradle/java-publication.gradle](/gradle/java-publication.gradle).
+    Note that "BINTRAY_API_KEY" env variable is required for Bintray upload.
+- Release automation (deducting version, generating changelog, creating GitHub release via GH REST API): [gradle/release.gradle](/gradle/release.gradle).
+    Note that "GH_WRITE_TOKEN" env variable is required to perform GitHub release.
+- Continuous delivery (CI server configuration): [.travis.yml](/gradle/release.gradle).
+    Note that you can use *any* CI system, we chose Travis CI as an example.
