@@ -15,12 +15,14 @@ The Gradle plugins we chose for this use case represent the minimum set of Gradl
 
  - the Maven publication (jars, poms) is configured using Gradle's built-in [maven-publish](https://docs.gradle.org/current/userguide/publishing_maven.html) plugin.
  - the publication to a public repository (Bintray) is configured using JFrog's [bintray](https://github.com/bintray/gradle-bintray-plugin) plugin.
+    Published versions and artifacts can be viewed in [Bintray web app](https://bintray.com/shipkit/examples/shipkit-demo).
     If you want to publish to a different repository than Bintray, you would use a different plugin for that.
     For example, if you want to publish to Sonatype Nexus for Open Source, you can use [maven-publish](https://docs.gradle.org/current/userguide/publishing_maven.html) plugin.
  - the next version for the release is deducted automatically by [shipkit-auto-version](https://github.com/shipkit/shipkit-auto-version) plugin.
     This plugin is minimalistic, written for sole purpose of automated deduction of version before the release. 
  - the GitHub release is performed via GH REST API by [shipkit-auto-version](https://github.com/shipkit/shipkit-changelog) plugin.
-    This plugin is minimalistic, written for sole purpose of generating changelog (release notes) and performing a GH release. 
+    This plugin is minimalistic, written for sole purpose of generating changelog (release notes) and performing a GH release.
+    The releases and changelog can be viewed on [GH releases page](https://github.com/shipkit/shipkit-demo/releases).
 
 ## Implementation reference
 
