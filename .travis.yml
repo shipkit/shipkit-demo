@@ -20,4 +20,4 @@ script:
   - >
     ./gradlew build bintrayUpload --scan -PbintrayDryRun
     && if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_BRANCH" = "master" ];
-      then ./gradlew githubRelease bintrayUpload --scan; fi
+      then ./gradlew bintrayUpload githubRelease --scan; fi
