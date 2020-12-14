@@ -1,6 +1,6 @@
 # Shipkit demo
 
-[![Build Status](https://travis-ci.org/shipkit/shipkit-demo.svg?branch=master)](https://travis-ci.org/shipkit/shipkit-demo)
+[![Build Status](https://travis-ci.com/shipkit/shipkit-demo.svg?branch=master)](https://travis-ci.com/shipkit/shipkit-demo)
 [![Download](https://api.bintray.com/packages/shipkit/examples/shipkit-demo/images/download.svg)](https://bintray.com/shipkit/examples/shipkit-demo/_latestVersion)
 
 This is a demo project that showcases release automation with Shipkit plugins.
