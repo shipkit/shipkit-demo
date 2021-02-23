@@ -4,8 +4,8 @@ plugins {
 
 rootProject.name = 'shipkit-demo'
 
-include "api"
-include "impl"
+include "shipkit-demo-api"
+include "shipkit-demo-impl"
 
 gradleEnterprise {
     buildScan {
