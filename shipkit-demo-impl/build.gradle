@@ -1,7 +1,7 @@
 apply plugin: "java"
 
 dependencies {
-    implementation project(":api")
+    implementation project(":shipkit-demo-api")
     implementation 'com.google.guava:guava:20.0'
     testImplementation 'junit:junit:4.12'
 }

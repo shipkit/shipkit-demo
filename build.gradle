@@ -6,7 +6,7 @@ buildscript {
     dependencies {
         classpath "org.shipkit:shipkit-auto-version:1.+"
         classpath "org.shipkit:shipkit-changelog:1.+"
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.+"
+        classpath "io.github.gradle-nexus:publish-plugin:1.0.0"
     }
 }
 
@@ -16,9 +16,12 @@ apply from: "gradle/ide.gradle"
 allprojects {
 
     repositories {
-        jcenter()
+        mavenCentral()
     }
 
-    group = "org.mockito.shipkit-demo"
+    group = "org.shipkit.shipkit-demo"
 }
 
+task clean(type: Delete) {
+    delete "build"
+}
