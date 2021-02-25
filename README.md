@@ -27,9 +27,9 @@ The Gradle plugins we chose for this use case represent the minimum set of Gradl
 ## Implementation reference
 
 - Java publication (javadoc/sources jar, pom customization, signing): [gradle/java-publication.gradle](/gradle/java-publication.gradle).
-    Note that "PGP_KEY" and "PGP_PASSWORD" environment variables are required for successful publications.
+    Note that `PGP_KEY` and `PGP_PASSWORD` environment variables are required for successful publications.
 - Release automation (deducting version, generating changelog, creating GitHub release via GH REST API, Sonatype/Maven Central settings): [gradle/release.gradle](/gradle/release.gradle).
-    Note that "GH_WRITE_TOKEN" env variable is required to perform GitHub release.
-    "SONATYPE_USER" and "SONATYPE_PASSWORD" are required for publications to Sonatype Nexus (Maven Central).
+    Note that `GH_WRITE_TOKEN` env variable is required to perform GitHub release.
+    `SONATYPE_USER` and `SONATYPE_PASSWORD` are required for publications to Sonatype Nexus (Maven Central).
 - Continuous delivery (CI server configuration): [.travis.yml](/.travis.yml).
     Note that you can use *any* CI system, we chose Travis CI as an example.
