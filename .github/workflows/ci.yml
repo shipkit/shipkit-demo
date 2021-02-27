@@ -45,7 +45,7 @@ jobs:
           && github.repository == 'shipkit/shipkit-demo'
           && !contains(toJSON(github.event.commits.*.message), '[skip release]')
 
-        run: ./gradlew publishToSonatype closeAndReleaseStagingRepository --scan
+        run: ./gradlew githubRelease publishToSonatype closeAndReleaseStagingRepository --scan
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           SONATYPE_USER: ${{secrets.SONATYPE_USER}}
