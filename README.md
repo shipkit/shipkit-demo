@@ -1,6 +1,6 @@
 # Shipkit demo
 
-[![Build Status](https://travis-ci.com/shipkit/shipkit-demo.svg?branch=master)](https://travis-ci.com/shipkit/shipkit-demo)
+[![CI](https://github.com/shipkit/shipkit-demo/workflows/CI/badge.svg)](https://github.com/shipkit/shipkit-demo/actions)
 [![Maven Central](https://img.shields.io/maven-central/v/org.shipkit.shipkit-demo/shipkit-demo-impl)](https://repo1.maven.org/maven2/org/shipkit/shipkit-demo/shipkit-demo-impl)
 
 This is a demo project that showcases release automation with Shipkit plugins.
