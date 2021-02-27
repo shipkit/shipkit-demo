@@ -50,10 +50,8 @@ publishing { //https://docs.gradle.org/current/userguide/publishing_maven.html
 
 apply plugin: 'signing'
 signing { // https://docs.gradle.org/current/userguide/signing_plugin.html
-    def signingKey = System.getenv("PGP_KEY")
-    def signingPassword = System.getenv("PGP_PASSWORD")
-    if (signingKey) {
-        useInMemoryPgpKeys(signingKey, signingPassword)
+    if (System.getenv("PGP_KEY")) {
+        useInMemoryPgpKeys(System.getenv("PGP_KEY"), System.getenv("PGP_PWD"))
         sign publishing.publications.maven
     }
 }
