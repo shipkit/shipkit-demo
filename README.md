@@ -1,7 +1,13 @@
-# Shipkit demo
-
 [![CI](https://github.com/shipkit/shipkit-demo/workflows/CI/badge.svg)](https://github.com/shipkit/shipkit-demo/actions)
 [![Maven Central](https://img.shields.io/maven-central/v/org.shipkit.shipkit-demo/shipkit-demo-impl)](https://repo1.maven.org/maven2/org/shipkit/shipkit-demo/shipkit-demo-impl)
+
+<br>
+<a href="https://github.com/shipkit">
+<img src="https://raw.githubusercontent.com/shipkit/shipkit-resources/main/images/Shipkit-logo.png" width="240"
+     alt="Shipkit Plugins"/>
+</a>
+
+# Shipkit demo
 
 This is a demo project that showcases release automation with Shipkit plugins.
 Use it as a reference to automate your project!
