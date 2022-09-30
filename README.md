@@ -15,8 +15,8 @@ Use it as a reference to automate your project!
 ## Overview
 
 This project represents a development model where every change on the main development branch will produce a new release via the CI system.
-The release is a Maven publication (jars, poms) that get uploaded to a free public repository (Maven Central) via a free CI system (Travis).
-We chose Maven Central and Travis CI as examples - you can use any system of your choice (for example: JFrog Artifactory + GH Actions).
+The release is a Maven publication (jars, poms) that get uploaded to a free public repository (Maven Central) via a free CI system (GitHub Actions).
+We chose Maven Central and GitHub Actions as examples - you can use any system of your choice (for example: JFrog Artifactory + Travis CI).
 The Gradle plugins we chose for this use case represent the minimum set of Gradle plugins to conveniently automate the releases.
 
  - the Maven publication (jars, poms) is configured using Gradle's built-in [maven-publish](https://docs.gradle.org/current/userguide/publishing_maven.html) plugin.
